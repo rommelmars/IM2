@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventory</title>
+    <link rel="stylesheet" href="{% static 'css/profile_home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/inventory.css' %}">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="Sapatosan Logo" class="logo">
+        </div>
+        <div class="search-container">
+            <input type="text" placeholder="🔍Search..." class="search-bar">
+        </div>
+        <div class="header-right">
+            <h1 class="welcome-message">Welcome, {{ user.username }}</h1>
+            <a href="{% url 'signout' %}" class="logout-button">Logout</a>
+        </div>
+    </header>
+    
+    <div class="container">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="{% url 'inventory' %}">Inventory</a></li>
+                <li><a href="{% url 'create_sale' %}">Add Sales</a></li>
+                <li><a href="{% url 'add_shoe' %}">Add Shoe</a></li>
+                <li><a href="{% url 'sales_report' %}">Sales Report</a></li> <!-- New link for Sales Report -->
+            </ul>
+        </aside>
+        
+        <main class="main-content">
+            <h2>Inventory</h2>
+            {% if shoes %}
+            <div class="table-container">
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Brand</th>
+                            <th>Price</th>
+                            <th>Size</th>
+                            <th>Stock</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for shoe in shoes %}
+                        <tr>
+                            <td>
+                                {% if shoe.image %}
+                                    <img src="{{ shoe.image.url }}" alt="{{ shoe.name }}" class="shoe-image">
+                                {% else %}
+                                    <p>No Image</p>
+                                {% endif %}
+                            </td>
+                            <td>{{ shoe.name }}</td>
+                            <td>{{ shoe.brand }}</td>
+                            <td>${{ shoe.price }}</td>
+                            <td>{{ shoe.size }}</td>
+                            <td>{{ shoe.stock }}</td>
+                            <td>
+                                <a href="{% url 'update_shoe' shoe.id %}" class="action-link">Update</a>
+                                <a href="{% url 'delete_shoe' shoe.id %}" class="action-link">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+                <p>No shoes available in the inventory.</p>
+            {% endif %}
+        </main>
+    </div>
+</body>
+</html>

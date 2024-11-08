@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Shoe</title>
+    <link rel="stylesheet" href="{% static 'css/add_shoe.css' %}">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="Sapatosan Logo" class="logo">
+        </div>
+        <div class="search-container">
+            <input type="text" placeholder="🔍Search..." class="search-bar">
+        </div>
+        <div class="header-right">
+            <h1 class="welcome-message">Welcome, {{ user.username }}</h1>
+            <a href="{% url 'signout' %}" class="logout-button">Logout</a>
+        </div>
+    </header>
+    
+    <div class="container">
+        <aside class="sidebar">
+            <ul>
+                <li><a href="{% url 'inventory' %}">Inventory</a></li>
+                <li><a href="{% url 'create_sale' %}">Add Sales</a></li>
+                <li><a href="{% url 'add_shoe' %}">Add Shoe</a></li>
+                <li><a href="{% url 'sales_report' %}">Sales Report</a></li> <!-- New link for Sales Report -->
+            </ul>
+        </aside>
+        
+        <main class="main-content">
+            <h2>Add Shoe</h2>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Add Shoe</button>
+            </form>
+        </main>
+    </div>
+</body>
+</html>

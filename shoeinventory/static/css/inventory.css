@@ -1,0 +1,178 @@
+/* profile_home.css */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #1c1c1c; /* Dark background for body */
+    color: #e0e0e0; /* Light text color */
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333333;
+    padding: 10px 20px;
+    height: 70px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.logo img {
+    width: 100px; /* Adjust logo width to fit better */
+    height: auto;
+    padding: 5px; /* Optional: space around the logo for a balanced fit */
+}
+
+.search-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+.search-bar {
+    width: 350px;
+    max-width: 100%;
+    padding: 8px;
+    border: 1px solid #555555;
+    border-radius: 5px;
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    font-size: 14px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.welcome-message {
+    margin-right: 15px;
+    color: #e0e0e0;
+    font-size: 14px;
+}
+
+/* Logout button styling */
+.logout-button {
+    text-decoration: none;
+    color: #000000; /* Black text */
+    background-color: #28a745; /* Green background */
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+    background-color: #218838; /* Darker green on hover */
+    color: #000000;
+}
+
+.container {
+    display: flex;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #282828; /* Dark sidebar background */
+    padding: 20px;
+    height: 100vh;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar li {
+    margin: 15px 0;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: #c0c0c0;
+    display: block;
+    padding: 10px 15px;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 5px; /* Rounded corners */
+}
+
+.sidebar a:hover {
+    background-color: #28a745; /* Green hover effect */
+    color: #ffffff;
+}
+
+/* Active link (Inventory) styling */
+.sidebar a.active {
+    background-color: #28a745; /* Green background for active page */
+    color: #ffffff;
+    border: 2px solid #28a745; /* Border around the active link */
+}
+
+/* Green box styling on hover for all links */
+.sidebar a:not(.active):hover {
+    border: 2px solid #28a745; /* Green border on hover */
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #1c1c1c; /* Dark main content background */
+}
+
+.main-content h2 {
+    text-align: center;
+    color: #e0e0e0;
+    margin-bottom: 20px;
+}
+
+.table-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.inventory-table {
+    width: 80%;
+    border-collapse: collapse;
+    text-align: center;
+    color: #e0e0e0; /* Light text for table */
+}
+
+.inventory-table th, .inventory-table td {
+    padding: 10px;
+    border: 1px solid #555555; /* Darker border */
+}
+
+.inventory-table th {
+    background-color: #3a3a3a; /* Darker header background */
+}
+
+.inventory-table td {
+    background-color: #2a2a2a; /* Darker cell background */
+}
+
+.shoe-image {
+    width: 80px;
+    height: auto;
+}
+
+
+/* Update and Delete button styling */
+/* Update and Delete button styling */
+.action-link {
+    text-decoration: none;
+    color: #000000; /* Black text */
+    background-color: #28a745; /* Green background matching logout button */
+    padding: 8px 12px; /* Same padding as logout button */
+    border-radius: 5px; /* Rounded corners */
+    margin: 5px 5px 0 5px; /* Added top margin to lower the button slightly */
+    transition: background-color 0.3s; /* Smooth transition */
+    display: inline-block;
+    text-align: center;
+    font-size: 14px; /* Optional: Adjust font size for consistency */
+}
+
+.action-link:hover {
+    background-color: #218838; /* Darker green on hover, same as logout button */
+    color: #000000; /* Ensure black text on hover */
+}

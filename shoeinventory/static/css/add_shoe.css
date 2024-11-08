@@ -1,0 +1,196 @@
+/* add_shoe.css */
+
+/* Apply consistent dark theme and font */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #1c1c1c; /* Dark background */
+    color: #e0e0e0; /* Light text */
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333333; /* Dark header */
+    padding: 10px 20px;
+    height: 70px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.logo img {
+    width: 100px;
+    height: auto;
+    padding: 5px;
+}
+
+.search-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+.search-bar {
+    width: 350px;
+    max-width: 100%;
+    padding: 8px;
+    border: 1px solid #555555;
+    border-radius: 5px;
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    font-size: 14px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.welcome-message {
+    margin-right: 15px;
+    color: #e0e0e0;
+    font-size: 14px;
+}
+
+.logout-button {
+    text-decoration: none;
+    color: #000000;
+    background-color: #28a745;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+    background-color: #218838;
+    color: #000000;
+}
+
+.container {
+    display: flex;
+    min-height: calc(100vh - 70px);
+}
+
+.sidebar {
+    width: 200px;
+    background-color: #282828; /* Dark sidebar background */
+    padding: 20px;
+    height: 100vh;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    margin: 15px 0;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: #c0c0c0;
+    padding: 10px 15px;
+    display: block;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: #28a745; 
+    color: #ffffff;
+}
+
+/* Active link (Inventory) styling */
+.sidebar a.active {
+    background-color: #28a745; /* Green background for active page */
+    color: #ffffff;
+    border: 2px solid #28a745; /* Border around the active link */
+}
+
+/* Green box styling on hover for all links */
+.sidebar a:not(.active):hover {
+    border: 2px solid #28a745; /* Green border on hover */
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #1c1c1c; /* Dark main content background */
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+}
+
+.main-content h2 {
+    color: #e0e0e0;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+}
+
+/* Form styling for add_shoe page */
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    align-items: center;
+    background-color: #2a2a2a;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+form label {
+    align-self: flex-start;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #e0e0e0;
+}
+
+form input,
+form select {
+    width: 100%;
+    padding: 8px;
+    margin: 4px 0 10px;
+    border: 1px solid #555555;
+    border-radius: 4px;
+    background-color: #333333;
+    color: #e0e0e0;
+    font-size: 14px;
+}
+
+form button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #28a745;
+    color: #000000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #218838;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .main-content {
+        padding: 15px;
+    }
+    
+    form {
+        max-width: 100%;
+    }
+}

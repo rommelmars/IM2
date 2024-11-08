@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shoe Inventory Management</title>
+  <link rel="stylesheet" href="static/css/homepage.css"> <!-- Link to CSS file -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header class="header">
+    <img src="static/images/logo.png" alt="Sapatosan Logo" class="logo"> <!-- Update path to logo -->
+    <nav class="nav-links">
+        <a href="{% url 'dashboard' %}">Dashboard</a>
+        <a href="{% url 'inventory' %}">Inventory</a>
+        <a href="{% url 'create_sale' %}">Sales</a>
+        <a href="{% url 'categories' %}">Categories</a>
+    </nav>
+    <div class="account-links">
+        {% if user.is_authenticated %}
+            <span class="username">{{ user.username }}</span> <!-- Display username -->
+            <a href="{% url 'signout' %}">Logout</a> <!-- Logout link -->
+        {% else %}
+            <a href="{% url 'signup' %}" class="join-us-link">Join Us</a>
+            <a href="{% url 'signin' %}">Sign In</a>
+        {% endif %}
+    </div>
+    
+  </header>
+
+  <!-- Teaser Video Section -->
+  <div class="video-container">
+    <video class="video-teaser" autoPlay loop muted>
+      <source src="static/images/teaser1.mp4" type="video/mp4"> <!-- Update the path to your video -->
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <!-- Spacer Div -->
+  <div class="spacer"></div> <!-- Spacer between video and poster -->
+
+  <!-- Poster Image Section -->
+  <div class="poster-container">
+    <img src="static/images/poster.png" alt="Poster" class="poster-image"> <!-- Update path to your poster image -->
+  </div>
+
+  <div class="spacer"></div> <!-- Spacer between poster and Poster 2 -->
+
+  <!-- Poster 2 Image Section -->
+  <div class="poster2-container">
+    <img src="static/images/poster2.png" alt="Poster 2" class="poster2-image"> <!-- Update path to your Poster 2 image -->
+  </div>
+
+  <!-- About Us Section -->
+  <div class="about-us">
+    <h2>About Us</h2>
+    <p>
+        The Shoe Inventory Management System is designed to give shoe shops a dependable solution for efficiently managing their inventory. 
+        The system seeks to improve operational efficiency, lower inventory-related costs, and boost overall business performance by automating 
+        inventory tracking and offering actionable insights via reporting and analytics. This solution will help shops maintain ideal stock levels, 
+        reduce errors, and make more educated inventory management decisions.
+    </p>
+  </div>
+
+  <!-- Footer Section -->
+  <footer class="footer">
+    <div class="social-media">
+        <a href="#"><i class="fab fa-facebook-f social-icon"></i></a>
+        <a href="#"><i class="fab fa-instagram social-icon"></i></a>
+        <a href="#"><i class="fab fa-x social-icon"></i></a>
+        <a href="#"><i class="fab fa-tiktok social-icon"></i></a>
+    </div>
+    <p>© 2024 Shoe Inventory Management. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

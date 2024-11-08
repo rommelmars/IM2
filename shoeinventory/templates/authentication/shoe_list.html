@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoe Inventory</title>
+</head>
+<body>
+    <h2>Shoe Inventory</h2>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Brand</th>
+                <th>Size</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for shoe in shoes %}
+            <tr>
+                <td>{{ shoe.name }}</td>
+                <td>{{ shoe.brand }}</td>
+                <td>{{ shoe.size }}</td>
+                <td>{{ shoe.quantity }}</td>
+                <td>{{ shoe.price }}</td>
+                <td>
+                    <a href="{% url 'update_shoe' shoe.id %}">Edit</a> |
+                    <a href="{% url 'delete_shoe' shoe.id %}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table> 
+
+    <a href="{% url 'add_shoe' %}">Add New Shoe</a>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+<body>
+    <div class="left-half"></div> 
+    <div class="right-half">        
+        <h1 class="title"></h1> 
+        <div class="container">
+            <h2>Create Your Account</h2> 
+            <p>Join us and manage your shoe inventory effortlessly!</p> 
+            <form method="POST">
+                {% csrf_token %}
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Create a username (only letters and numbers)" required>
+                <br>
+                <label for="fname">First Name</label>
+                <input type="text" id="fname" name="fname" placeholder="Enter First Name" required>
+                <br>
+                <label for="lname">Last Name</label>
+                <input type="text" id="lname" name="lname" placeholder="Enter Last Name" required>
+                <br>
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter Email Address" required>
+                <br>
+                <label for="pass1">Password</label>
+                <input type="password" id="pass1" name="pass1" placeholder="Enter Password" required>
+                <br>
+                <label for="pass2">Confirm Password</label>
+                <input type="password" id="pass2" name="pass2" placeholder="Confirm Password" required>
+                <br>
+            
+                <button type="submit">Register</button>
+            </form>
+
+            <!-- Add the "Already have an account?" section -->
+            <p>Already have an account?</p>
+            <a href="{% url 'signin' %}">
+                <button type="button">Sign In</button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
