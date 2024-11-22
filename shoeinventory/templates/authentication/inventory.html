@@ -27,12 +27,27 @@
                 <li><a href="{% url 'inventory' %}">Inventory</a></li>
                 <li><a href="{% url 'create_sale' %}">Add Sales</a></li>
                 <li><a href="{% url 'add_shoe' %}">Add Shoe</a></li>
-                <li><a href="{% url 'sales_report' %}">Sales Report</a></li> <!-- New link for Sales Report -->
+                <li><a href="{% url 'sales_report' %}">Sales Report</a></li>
             </ul>
         </aside>
         
         <main class="main-content">
             <h2>Inventory</h2>
+
+            <!-- Category Filter -->
+            <form method="GET" class="category-filter-form">
+                <label for="category">Filter by Category:</label>
+                <select name="category" id="category">
+                    <option value="">All Categories</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}" {% if selected_category == category.id %}selected{% endif %}>
+                            {{ category.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Filter</button>
+            </form>
+
             {% if shoes %}
             <div class="table-container">
                 <table class="inventory-table">
@@ -44,6 +59,7 @@
                             <th>Price</th>
                             <th>Size</th>
                             <th>Stock</th>
+                            <th>Category</th>  <!-- New column for Category -->
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -62,6 +78,13 @@
                             <td>${{ shoe.price }}</td>
                             <td>{{ shoe.size }}</td>
                             <td>{{ shoe.stock }}</td>
+                            <td>
+                                {% if shoe.category %}
+                                    {{ shoe.category.name }}
+                                {% else %}
+                                    No Category
+                                {% endif %}
+                            </td>  <!-- Category column -->
                             <td>
                                 <a href="{% url 'update_shoe' shoe.id %}" class="action-link">Update</a>
                                 <a href="{% url 'delete_shoe' shoe.id %}" class="action-link">Delete</a>

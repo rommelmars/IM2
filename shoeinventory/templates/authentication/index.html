@@ -6,7 +6,26 @@
   <title>Shoe Inventory Management</title>
   <link rel="stylesheet" href="static/css/homepage.css"> <!-- Link to CSS file -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Optional: Add CSS directly if needed for animations or transitions */
+    .fade-in {
+      opacity: 0;
+      transition: opacity 2s ease-in;
+    }
 
+    .fade-in.show {
+      opacity: 1;
+    }
+
+    .slide-in {
+      transform: translateX(-100%);
+      transition: transform 1s ease-out;
+    }
+
+    .slide-in.show {
+      transform: translateX(0);
+    }
+  </style>
 </head>
 <body>
 
@@ -28,13 +47,12 @@
             <a href="{% url 'signin' %}">Sign In</a>
         {% endif %}
     </div>
-    
   </header>
 
   <!-- Teaser Video Section -->
-  <div class="video-container">
+  <div class="video-container fade-in">
     <video class="video-teaser" autoPlay loop muted>
-      <source src="static/images/teaser1.mp4" type="video/mp4"> <!-- Update the path to your video -->
+      <source src="static/images/teaser12.mp4" type="video/mp4"> <!-- Update the path to your video -->
       Your browser does not support the video tag.
     </video>
   </div>
@@ -43,19 +61,19 @@
   <div class="spacer"></div> <!-- Spacer between video and poster -->
 
   <!-- Poster Image Section -->
-  <div class="poster-container">
+  <div class="poster-container fade-in">
     <img src="static/images/poster.png" alt="Poster" class="poster-image"> <!-- Update path to your poster image -->
   </div>
 
   <div class="spacer"></div> <!-- Spacer between poster and Poster 2 -->
 
   <!-- Poster 2 Image Section -->
-  <div class="poster2-container">
+  <div class="poster2-container fade-in">
     <img src="static/images/poster2.png" alt="Poster 2" class="poster2-image"> <!-- Update path to your Poster 2 image -->
   </div>
 
   <!-- About Us Section -->
-  <div class="about-us">
+  <div class="about-us fade-in">
     <h2>About Us</h2>
     <p>
         The Shoe Inventory Management System is designed to give shoe shops a dependable solution for efficiently managing their inventory. 
@@ -74,7 +92,29 @@
         <a href="#"><i class="fab fa-tiktok social-icon"></i></a>
     </div>
     <p>© 2024 Shoe Inventory Management. All rights reserved.</p>
-</footer>
+  </footer>
+
+  <!-- JavaScript for animations -->
+  <script src="homepage.js"></script>
+  <script>
+    // Wait until the DOM is fully loaded before triggering animations
+    window.addEventListener('DOMContentLoaded', () => {
+      const elements = document.querySelectorAll('.fade-in');
+      elements.forEach(element => {
+        setTimeout(() => {
+          element.classList.add('show');
+        }, 500);
+      });
+
+      // Slide-in effect for posters
+      const slideInElements = document.querySelectorAll('.poster-container, .poster2-container');
+      slideInElements.forEach(element => {
+        setTimeout(() => {
+          element.classList.add('show');
+        }, 1000); // Delay for smooth animation
+      });
+    });
+  </script>
 
 </body>
 </html>

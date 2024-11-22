@@ -44,8 +44,14 @@
                 <tbody>
                     {% for sale in sales %}
                     <tr>
-                        <td>{{ sale.date|date:"Y-m-d H:i" }}</td>
-                        <td>{{ sale.shoe.name }} ({{ sale.shoe.brand }})</td>
+                        <td>{{ sale.date|date:"Y-m-d h:i A" }}</td>
+                        <td>
+                            {% if sale.shoe %}
+                                {{ sale.shoe.name }} ({{ sale.shoe.brand }})
+                            {% else %}
+                                {{ sale.shoe_name }} 
+                            {% endif %}
+                        </td>
                         <td>{{ sale.quantity_sold }}</td>
                         <td>${{ sale.total_amount }}</td>
                     </tr>

@@ -5,7 +5,7 @@ from .models import Sale
 class ShoeForm(forms.ModelForm):
     class Meta:
         model = Shoe
-        fields = ['name', 'brand', 'price', 'size', 'image', 'stock']  
+        fields = ['name', 'brand', 'price', 'size', 'image', 'stock', 'category']  
 
 
 class SaleForm(forms.ModelForm):

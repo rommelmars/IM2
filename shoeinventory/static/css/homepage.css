@@ -1,177 +1,134 @@
-/* Reset default margins and paddings */
-* {
+/* General Styling for Body */
+body {
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Header Section */
-.header {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  /* Header Styling */
+  .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #fafafa;
-    padding: 20px;
-    width: 100%;
+    background-color: #FFFFFF;
+    color: #000000;
+    padding: 15px;
+  }
+  
+  .header .logo {
+    height: 100px;
+  }
+  
+  .nav-links a {
+    color: #000000;
+    margin: 0 15px;
+    text-decoration: none;
+  }
+  
+  .account-links a {
+    color: #000000;
+    margin: 0 10px;
+  }
+  
+  .username {
+    margin-right: 10px;
+  }
+  
+  /* Video Container Styling */
+  .video-container {
     position: relative;
-}
-
-.logo {
-    width: 180px; /* Adjust the logo size */
-}
-
-/* Navigation Links */
-.nav-links {
-    display: flex;
-}
-.username {
-    font-size: 24px; /* Adjust to your desired font size */
-    color: rgb(19, 1, 1); /* Match the color with the logout link */
-    margin-right: 15px; /* Space between username and logout */
-    font-weight: bold; /* Optional: make the username bold */
-}
-.nav-links a {
-    color: rgb(0, 0, 0);
-    text-decoration: none;
-    margin-right: 20px;
-    font-size: 24px;
-    padding: 10px;
-    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-}
-
-.nav-links a:hover {
-    background-color: rgb(168, 14, 117); /* Change background to black on hover */
-    border-radius: 5px; /* Optional: to make the hover look smoother */
-}
-
-/* Account Links */
-.account-links {
-    display: flex;
-}
-
-.account-links a {
-    color: rgb(19, 1, 1);
-    text-decoration: none;
-    margin-left: 15px;
-    font-size: 24px;
-    padding: 10px;
-    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-}
-
-.account-links a:hover {
-    background-color: rgb(219, 30, 188); /* Change background to black on hover */
-    border-radius: 5px;
-}
-
-/* Teaser Video Section */
-.video-container {
-    width: 100%;
-    height: 400px; /* Set desired height */
+    height: 400px; /* Adjust this value for the height of the video */
     overflow: hidden;
+    margin-bottom: 20px; /* Adds space between the video and the next section */
+  }
+  
+  .video-teaser {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  
+  /* Poster Container Styling */
+  .posters-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px; /* Adds space between the video and posters */
+    padding-top: 40px; /* Adds padding to avoid overlap with video */
+  }
+  
+  .poster-container,
+  .poster2-container {
     position: relative;
-    margin-bottom: 20px; /* Add space below the video */
-}
-
-.video-teaser {
     width: 100%;
-    height: 100%; /* Ensure the video fills the height of the container */
-    object-fit: cover; /* Ensure the video covers the entire container without distortion */
+    height: 700px; /* Adjust the height to ensure it's longer */
+    overflow: hidden;
+    margin-top: 20px; /* Add some space above if necessary */
 }
-
-/* Spacer Section */
-.spacer {
-    height: 20px; /* Adjust height as needed for spacing */
-}
-
-/* Poster Image Section */
-.poster-container {
+  .poster-image,
+  .poster2-image {
     width: 100%;
-    height: 300px; /* Set height for poster image */
-    display: flex; /* Use flexbox to center the image */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the area without distorting */
 }
-
-.poster-image {
-    max-width: 65%; /* Ensure the image takes up half the width of the container */
-    height: auto; /* Maintain aspect ratio */
-    object-fit: contain; /* Ensure the image is fully visible */
-}
-
-.poster-container {
-    width: 100%;
-    height: 400px; /* Set height for poster image */
-    display: flex; /* Use flexbox to center the image */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-}
-
-.poster-image {
-    max-width: 50%; /* Ensure the image takes up half the width of the container */
-    height: auto; /* Maintain aspect ratio */
-    object-fit: contain; /* Ensure the image is fully visible */
-}
-
-.poster2-container {
-    width: 100%;
-    height: 400px; /* Set height for Poster 2 image */
-    display: flex; /* Use flexbox to center the image */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-}
-
-.poster2-image {
-    max-width: 80%; /* Ensure the image takes up half the width of the container */
-    height: auto; /* Maintain aspect ratio */
-    object-fit: contain; /* Ensure the image is fully visible */
-}
-
-
-/* About Us Section */
-.about-us {
-    padding: 20px; /* Add padding for spacing */
-    background-color: white; /* White background */
-    margin: 20px 0; /* Add margin above and below */
-    border-radius: 8px; /* Rounded corners for aesthetics */
-    text-align: center; /* Center the text */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow for depth */
-}
-
-.about-us h2 {
-    font-size: 24px; /* Font size for the heading */
-    margin-bottom: 15px; /* Space below the heading */
-    color: black; /* Black text for heading */
-}
-
-.about-us p {
-    font-size: 16px; /* Font size for the paragraph */
-    line-height: 1.5; /* Line height for readability */
-    color: black; /* Black text for paragraph */
-    max-width: 800px; /* Optional: limit the width for better readability */
-    margin: 0 auto; /* Center the paragraph within the container */
-}
-
-
-/* Footer Section */
-.footer {
-    background-color: #fafafa; /* Match header background */
-    text-align: center; /* Center align the text */
-    padding: 20px; /* Add padding */
-    position: relative; /* Keep it relative to the page */
-}
-
-.social-media {
-    margin-bottom: 10px; /* Space between icons and text */
-}
-
-.social-icon {
-    font-size: 30px; /* Adjust size of icons */
-    margin: 0 10px; /* Space between icons */
-    color: black; /* Color of the icons */
-    transition: transform 0.2s; /* Add transition for hover effect */
-}
-
-.social-icon:hover {
-    transform: scale(1.1); /* Scale up on hover */
-}
-
+  
+  /* Spacer Styling for spacing between sections */
+  .spacer {
+    height: 20px;
+  }
+  
+  /* About Us Section Styling */
+  .about-us {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #fff;
+  }
+  
+  .about-us h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  
+  /* Footer Styling */
+  .footer {
+    background-color: #FFFF;
+    color: #000000;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .social-media a {
+    color: #000000;
+    margin: 0 15px;
+  }
+  
+  .social-icon {
+    font-size: 1.5em;
+  }
+  
+  .footer p {
+    margin-top: 20px;
+  }
+  
+  /* Animations for Fade-in and Slide-in */
+  .fade-in {
+    opacity: 0;
+    transition: opacity 2s ease-in;
+  }
+  
+  .fade-in.show {
+    opacity: 1;
+  }
+  
+  .slide-in {
+    transform: translateX(-100%);
+    transition: transform 1s ease-out;
+  }
+  
+  .slide-in.show {
+    transform: translateX(0);
+  }
+  

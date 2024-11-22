@@ -15,13 +15,7 @@
             <h2>Welcome Back!</h2> 
             <p>We're so excited to see you again!</p> 
 
-            {% if messages %}
-                <ul>
-                    {% for message in messages %}
-                        <li>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+        
 
             <form method="POST">
                 {% csrf_token %}

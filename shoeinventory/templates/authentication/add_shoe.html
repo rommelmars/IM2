@@ -26,7 +26,7 @@
                 <li><a href="{% url 'inventory' %}">Inventory</a></li>
                 <li><a href="{% url 'create_sale' %}">Add Sales</a></li>
                 <li><a href="{% url 'add_shoe' %}">Add Shoe</a></li>
-                <li><a href="{% url 'sales_report' %}">Sales Report</a></li> <!-- New link for Sales Report -->
+                <li><a href="{% url 'sales_report' %}">Sales Report</a></li>
             </ul>
         </aside>
         
@@ -34,7 +34,8 @@
             <h2>Add Shoe</h2>
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
-                {{ form.as_p }}
+                {{ form.as_p }}  <!-- This will render all form fields including the category dropdown -->
+                
                 <button type="submit">Add Shoe</button>
             </form>
         </main>
