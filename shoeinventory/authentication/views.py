@@ -11,6 +11,19 @@ from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 from django.db.models import Sum
 from django.db.models.functions import TruncDate
+from django.contrib.auth import update_session_auth_hash
+from django.db.models import Sum, F
+from django.utils.timezone import localtime, now, timezone  # Added timezone import
+from django.db.models.functions import TruncMonth
+from collections import defaultdict
+from datetime import datetime, timedelta
+from django.db.models import Sum, F, Count
+from decimal import Decimal
+import json
+from django.http import JsonResponse
+
+
+
 
 def home(request):
     return render(request, "authentication/index.html")
@@ -52,7 +65,7 @@ def signin(request):
             # login sa user
             login(request, user)
             messages.success(request, f"Welcome, {username}! You have successfully logged in.")
-            return redirect('profile_home')  # Redirect to profile home
+            return redirect('dashboard')  # Redirect to profile home
         else:
             messages.error(request, "Invalid username or password.") 
             return redirect('signin')
@@ -145,19 +158,23 @@ def profile_home(request):
 
 @login_required
 def create_sale(request):
+    form = SaleForm(request.POST or None)
+    categories = Category.objects.all()  # Fetch all categories
+
     if request.method == 'POST':
         form = SaleForm(request.POST)
         if form.is_valid():
             sale = form.save(commit=False)
-            sale.user = request.user  
+            sale.user = request.user
             try:
-                sale.save()  
-                return redirect('inventory') 
+                sale.save()
+                return redirect('inventory')
             except ValueError as e:
-                form.add_error(None, str(e)) 
-    else:
-        form = SaleForm()
-    return render(request, 'authentication/create_sale.html', {'form': form})
+                form.add_error(None, str(e))  # Add any unexpected errors to the form
+    return render(request, 'authentication/create_sale.html', {
+        'form': form,
+        'categories': categories,
+    })
 
 @login_required
 def sales_report(request):
@@ -178,20 +195,21 @@ def sales_report(request):
     elif sort_by == 'total_amount':
         sales = sales.order_by('-total_amount')
 
-    # Group sales by date
-    sales_by_date = (
-        sales.annotate(sale_date=TruncDate('date'))
-        .values('sale_date')
-        .annotate(total_quantity=Sum('quantity_sold'), total_amount=Sum('total_amount'))
-        .order_by('-sale_date')
-    )
+    # Group sales by date (convert to PH time)
+    grouped_sales = {}
+    for sale in sales:
+        # Convert to PH time zone using django.utils.timezone.localtime
+        sale_date = localtime(sale.date).date()
+
+        if sale_date not in grouped_sales:
+            grouped_sales[sale_date] = []
+        grouped_sales[sale_date].append(sale)
 
     # Fetch all categories for filtering
     categories = Category.objects.all()
 
     context = {
-        'sales': sales,
-        'sales_by_date': sales_by_date,
+        'grouped_sales': grouped_sales,  # Grouped sales by date
         'categories': categories,
         'selected_category': int(category_id) if category_id else None,
         'sort_by': sort_by,
@@ -210,3 +228,139 @@ def search_products(request):
             results_list.append(shoe)
         return JsonResponse(results_list, safe=False)  
     return JsonResponse([], safe=False)
+
+@login_required
+def personal_information(request):
+    if request.method == "POST":
+        user = request.user
+
+        # Update username, first name, last name, and email
+        user.username = request.POST.get("username", user.username)
+        user.first_name = request.POST.get("fname", user.first_name)
+        user.last_name = request.POST.get("lname", user.last_name)
+        user.email = request.POST.get("email", user.email)
+
+        # Handle password change
+        password1 = request.POST.get("pass1", "")
+        password2 = request.POST.get("pass2", "")
+
+        if password1 or password2:  # If either password field is filled
+            if password1 == password2:
+                if len(password1) >= 8:  # Optional: Enforce a minimum password length
+                    user.set_password(password1)
+                    update_session_auth_hash(request, user)  # Keeps the user logged in
+                    messages.success(request, "Your password has been updated.")
+                else:
+                    messages.error(request, "Password must be at least 8 characters long.")
+                    return redirect("personal_information")
+            else:
+                messages.error(request, "Passwords do not match.")
+                return redirect("personal_information")
+
+        # Save the updated user object
+        user.save()
+        messages.success(request, "Your information has been updated successfully.")
+        return redirect("personal_information")
+
+    return render(request, "authentication/personal_information.html", {"user": request.user})
+
+@login_required
+def dashboard(request):
+    user = request.user  # Get the logged-in user
+    today = now()  # Get the current datetime
+    start_date = today - timedelta(days=6)  # Last 7 days
+
+    # Daily sales for the past 7 days, filtered by user
+    daily_sales = (
+        Sale.objects.filter(user=user, date__gte=start_date, date__lte=today)
+        .annotate(day=TruncDate('date'))
+        .values('day')
+        .annotate(total_sales=Sum('total_amount'))
+        .order_by('day')
+    )
+
+    # Prepare data for the chart (convert Decimal to float)
+    days = [day['day'].strftime('%Y-%m-%d') for day in daily_sales]
+    sales_values = [float(day['total_sales'] or 0) for day in daily_sales]  # Convert Decimal to float
+
+    # Total sales today, filtered by user
+    total_sales_today = Sale.objects.filter(user=user, date__date=today.date()).aggregate(
+        Sum('total_amount')
+    )['total_amount__sum'] or 0
+    total_sales_today = float(total_sales_today)  # Convert Decimal to float
+
+    # Sales growth calculation (example: percentage change compared to last week)
+    last_week_sales = Sale.objects.filter(
+        user=user, date__gte=start_date - timedelta(weeks=1), date__lte=start_date
+    ).aggregate(Sum('total_amount'))['total_amount__sum'] or 0
+    sales_growth = 0
+    if last_week_sales > 0:
+        sales_growth = ((total_sales_today - last_week_sales) / last_week_sales) * 100
+
+    # Prepare data for low-stock chart, filtered by user
+    low_stock_shoes = Shoe.objects.filter(user=user, stock__lte=10).order_by('stock')[:5]
+    low_stock_shoes_names = [shoe.name for shoe in low_stock_shoes]
+    low_stock_shoes_stocks = [shoe.stock for shoe in low_stock_shoes]
+
+    # Top-selling shoe, filtered by user
+    top_selling_shoe = (
+        Sale.objects.filter(user=user)
+        .values('shoe__name')
+        .annotate(total_sold=Sum('quantity_sold'))
+        .order_by('-total_sold')
+        .first()
+    )
+
+    context = {
+        'total_sales_today': total_sales_today,
+        'days': json.dumps(days),
+        'sales_values': json.dumps(sales_values),
+        'low_stock_shoes_names': json.dumps(low_stock_shoes_names),
+        'low_stock_shoes_stocks': json.dumps(low_stock_shoes_stocks),
+        'top_selling_shoe': top_selling_shoe['shoe__name'] if top_selling_shoe else 'N/A',
+        'sales_growth': sales_growth,
+    }
+
+    return render(request, 'authentication/dashboard.html', context)
+
+
+@login_required
+def dashboard_api(request):
+    today = localtime(now()).date()
+
+    # Total sales today (convert Decimal to float)
+    total_sales_today = Sale.objects.filter(date__date=today).aggregate(Sum('total_amount'))['total_amount__sum'] or 0
+    total_sales_today = float(total_sales_today)  # Convert Decimal to float
+
+    # Top-selling shoe
+    top_selling_shoe = (
+        Sale.objects.values('shoe__name')
+        .annotate(total_sold=Sum('quantity_sold'))
+        .order_by('-total_sold')
+        .first()
+    )
+
+    # Low stock shoes
+    low_stock_shoes = Shoe.objects.filter(stock__lte=10).order_by('stock')
+    low_stock_shoes_data = [{'name': shoe.name, 'stock': shoe.stock} for shoe in low_stock_shoes]
+
+    # Sales data for the last 7 days
+    last_7_days = Sale.objects.filter(date__gte=now() - timedelta(days=6))
+    daily_sales = (
+        last_7_days.annotate(date=TruncDate('date'))
+        .values('date')
+        .annotate(total_sales=Sum('total_amount'))
+    )
+
+    days = [entry['date'].strftime('%Y-%m-%d') for entry in daily_sales]
+    sales_values = [float(entry['total_sales'] or 0) for entry in daily_sales]  # Convert Decimal to float
+
+    return JsonResponse({
+        'total_sales_today': total_sales_today,
+        'top_selling_shoe': top_selling_shoe or {},
+        'low_stock_shoes': low_stock_shoes_data,
+        'days': days,
+        'sales_values': sales_values,
+        'low_stock_shoes_names': [shoe['name'] for shoe in low_stock_shoes_data],
+        'low_stock_shoes_stocks': [shoe['stock'] for shoe in low_stock_shoes_data],
+    })

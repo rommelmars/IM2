@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Information</title>
+    <link rel="stylesheet" href="{% static 'css/profile_home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/personal_information.css' %}">
+</head>
+<body>
+    <div class="profile-container">
+        <h2>Update Personal Information</h2>
+
+        <!-- Notification Messages -->
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Profile Form -->
+        <form method="POST" class="profile-form">
+            {% csrf_token %}
+
+            <!-- Username -->
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" value="{{ user.username }}" required>
+
+            <!-- First Name -->
+            <label for="fname">First Name</label>
+            <input type="text" name="fname" id="fname" value="{{ user.first_name }}">
+
+            <!-- Last Name -->
+            <label for="lname">Last Name</label>
+            <input type="text" name="lname" id="lname" value="{{ user.last_name }}">
+
+            <!-- Email -->
+            <label for="email">Email Address</label>
+            <input type="email" name="email" id="email" value="{{ user.email }}">
+
+            <!-- Password -->
+            <label for="pass1">New Password</label>
+            <input type="password" name="pass1" id="pass1" placeholder="Enter a new password (optional)">
+
+            <!-- Confirm Password -->
+            <label for="pass2">Confirm Password</label>
+            <input type="password" name="pass2" id="pass2" placeholder="Confirm the new password (optional)">
+
+            <!-- Submit -->
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+</body>
+</html>

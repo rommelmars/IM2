@@ -164,14 +164,18 @@ body {
 
 .action-link {
     text-decoration: none;
-    color: #000000; /* Black text color */
-    background-color: #28a745; /* Green background */
-    padding: 8px 12px; /* Padding for button size */
+    color: #000000; /* Black text */
+    background-color: #28a745; /* Green background matching logout button */
+    padding: 8px 12px; /* Same padding as logout button */
     border-radius: 5px; /* Rounded corners */
+    margin: 5px 5px 0 5px; /* Added top margin to lower the button slightly */
     transition: background-color 0.3s; /* Smooth transition */
+    display: inline-block;
+    text-align: center;
+    font-size: 14px; /* Optional: Adjust font size for consistency */
 }
 
 .action-link:hover {
-    background-color: #218838; /* Darker green on hover */
+    background-color: #218838; /* Darker green on hover, same as logout button */
     color: #000000; /* Ensure black text on hover */
 }

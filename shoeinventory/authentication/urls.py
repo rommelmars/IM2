@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from .import views
-from .views import inventory_list, add_shoe, update_shoe, delete_shoe
+from .views import inventory_list, add_shoe, update_shoe, delete_shoe, personal_information
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -11,7 +11,7 @@ urlpatterns = [
     path('signin', views.signin, name="signin"),
     path('signout', views.signout, name="signout"),
     path('profile/', views.profile_home, name='profile_home'),
-    path('dashboard/', views.dashboard, name='dashboard'),
+    path('dashboard/', views.dashboard, name='dashboard'),  
     path('inventory/', views.inventory, name='inventory'),  
     path('create_sale/', views.create_sale, name='create_sale'),
     path('categories/', views.categories, name='categories'),
@@ -21,6 +21,8 @@ urlpatterns = [
     path('add_shoe/', add_shoe, name='add_shoe'),
     path('sales_report/', views.sales_report, name='sales_report'),
     path('search/', views.search_products, name='search_products'),
+    path('personal_information/', personal_information, name='personal_information'),
+    path('dashboard/api/', views.dashboard_api, name='dashboard_api'),
     
 ]
 

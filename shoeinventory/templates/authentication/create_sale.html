@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Record Sale</title>
+    <link rel="stylesheet" href="{% static 'css/profile_home.css' %}">
     <link rel="stylesheet" href="{% static 'css/create_sale.css' %}">
 </head>
 <body>
@@ -12,22 +13,28 @@
             <img src="{% static 'images/logo.png' %}" alt="Sapatosan Logo" class="logo">
         </div>
         <div class="search-container">
-            <input type="text" placeholder="🔍 Search..." class="search-bar">
+            <input type="text" placeholder="🔍Search..." class="search-bar">
         </div>
         <div class="header-right">
-            <h1 class="welcome-message">Welcome, {{ user.username }}</h1>
-            <a href="{% url 'signout' %}" class="logout-button">Logout</a>
-        </div>
+            <div class="dropdown">
+                <span class="welcome-message">Welcome, {{ user.username }}</span>
+                <div class="dropdown-menu">
+                    <a href="{% url 'personal_information' %}" class="dropdown-item">Personal Information</a>
+                    <a href="{% url 'signout' %}" class="dropdown-item">Logout</a>
+                </div>
     </header>
 
     <div class="container">
         <aside class="sidebar">
             <ul>
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
                 <li><a href="{% url 'inventory' %}">Inventory</a></li>
-                <li><a href="{% url 'create_sale' %}">Add Sales</a></li>
+                <li><a href="{% url 'create_sale' %}" class="active">Add Sales</a></li>
                 <li><a href="{% url 'add_shoe' %}">Add Shoe</a></li>
-                <li><a href="{% url 'sales_report' %}">Sales Report</a></li> <!-- New link for Sales Report -->
+                <li><a href="{% url 'sales_report' %}">Sales Report</a></li>
+                
             </ul>
+
         </aside>
 
         <main class="main-content">
@@ -37,6 +44,17 @@
                 <div class="form-group">
                     <label for="shoe">Select Shoe:</label>
                     {{ form.shoe }}
+                </div>
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select name="category" id="category">
+                        <option value="">Select Category</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}" {% if form.category.value == category.id %}selected{% endif %}>
+                                {{ category.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="quantity_sold">Quantity Sold:</label>
@@ -52,5 +70,6 @@
             {% endif %}
         </main>
     </div>
+    <script src="{% static 'js/inventory.js' %}"></script>
 </body>
 </html>

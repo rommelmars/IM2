@@ -54,3 +54,4 @@ class Sale(models.Model):
 
     def __str__(self):
         return f"Sale of {self.quantity_sold} {self.shoe_name if self.shoe_name else 'Deleted Shoe'}"
+    

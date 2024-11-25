@@ -16,19 +16,26 @@
             <input type="text" placeholder="🔍Search..." class="search-bar">
         </div>
         <div class="header-right">
-            <h1 class="welcome-message">Welcome, {{ user.username }}</h1>
-            <a href="{% url 'signout' %}" class="logout-button">Logout</a>
-        </div>
+            <div class="dropdown">
+                <span class="welcome-message">Welcome, {{ user.username }}</span>
+                <div class="dropdown-menu">
+                    <a href="{% url 'personal_information' %}" class="dropdown-item">Personal Information</a>
+                    <a href="{% url 'signout' %}" class="dropdown-item">Logout</a>
+                </div>
+            </div>
     </header>
     
     <div class="container">
         <aside class="sidebar">
             <ul>
-                <li><a href="{% url 'inventory' %}">Inventory</a></li>
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'inventory' %}" class="active">Inventory</a></li>
                 <li><a href="{% url 'create_sale' %}">Add Sales</a></li>
                 <li><a href="{% url 'add_shoe' %}">Add Shoe</a></li>
                 <li><a href="{% url 'sales_report' %}">Sales Report</a></li>
+                
             </ul>
+
         </aside>
         
         <main class="main-content">
@@ -59,7 +66,7 @@
                             <th>Price</th>
                             <th>Size</th>
                             <th>Stock</th>
-                            <th>Category</th>  <!-- New column for Category -->
+                            <th>Category</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -84,7 +91,7 @@
                                 {% else %}
                                     No Category
                                 {% endif %}
-                            </td>  <!-- Category column -->
+                            </td>
                             <td>
                                 <a href="{% url 'update_shoe' shoe.id %}" class="action-link">Update</a>
                                 <a href="{% url 'delete_shoe' shoe.id %}" class="action-link">Delete</a>
@@ -99,5 +106,6 @@
             {% endif %}
         </main>
     </div>
+    <script src="{% static 'js/inventory.js' %}"></script>
 </body>
 </html>

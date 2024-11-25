@@ -80,13 +80,18 @@ body {
 
 .container {
     display: flex;
+    margin-top: 10px; /* Ensure there's space between header and container */
 }
 
 .sidebar {
     width: 200px;
     background-color: #282828;
     padding: 20px;
-    height: 100vh;
+    height: calc(100vh - 70px); /* Adjust height to be full screen minus header height */
+    position: fixed;  /* Keep the sidebar fixed in place */
+    top: 70px;        /* Start below the header */
+    left: 0;          /* Align to the left */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Optional shadow for sidebar */
 }
 
 .sidebar ul {
@@ -105,6 +110,16 @@ body {
     padding: 10px 15px;
     border-radius: 5px;
 }
+.sidebar a.active {
+    background-color: #28a745; /* Green background for active page */
+    color: #ffffff;
+    border: 2px solid #28a745; /* Border around the active link */
+}
+
+/* Green box styling on hover for all links */
+.sidebar a:not(.active):hover {
+    border: 2px solid #28a745; /* Green border on hover */
+}
 
 .sidebar a:hover {
     background-color: #28a745;
@@ -112,44 +127,22 @@ body {
 }
 
 .main-content {
-    flex-grow: 1;
+    margin-left: 220px; /* Add space to the left for sidebar */
     padding: 20px;
+    width: calc(100% - 220px); /* Ensure main content does not overlap sidebar */
 }
 
-.inventory-table {
-    width: 80%;
-    margin: auto;
-    border-collapse: collapse;
-}
+/* Optional: For better responsiveness, make sure the sidebar is collapsible on smaller screens */
+@media (max-width: 768px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        top: 0;
+        left: 0;
+    }
 
-.inventory-table th, .inventory-table td {
-    padding: 10px;
-    border: 1px solid #555555;
-}
-
-.inventory-table th {
-    background-color: #3a3a3a;
-}
-
-.inventory-table td {
-    background-color: #2a2a2a;
-}
-
-.shoe-image {
-    width: 80px;
-    height: auto;
-}
-
-.action-link {
-    text-decoration: none;
-    color: #000000;
-    background-color: #28a745;
-    padding: 8px 12px;
-    border-radius: 5px;
-    margin: 5px;
-}
-
-.action-link:hover {
-    background-color: #218838;
-    color: #000000;
+    .main-content {
+        margin-left: 0;
+    }
 }

@@ -66,7 +66,50 @@ body {
     background-color: #218838; /* Darker green on hover */
     color: #000000;
 }
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
 
+.inventory-table th, .inventory-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.inventory-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.inventory-table img {
+    max-width: 100px;
+    max-height: 80px;
+    object-fit: contain;
+}
+
+h3 {
+    margin-top: 30px;
+    color: #f4f4f4;
+}
+
+.container {
+    display: flex;
+}
+
+.sidebar {
+    width: 20%;
+    left: 0;
+    background: #f7f7f7;
+    padding: 15px;
+}
+
+.main-content {
+    width: 80%;
+    padding: 20px;
+}
 .container {
     display: flex;
 }
