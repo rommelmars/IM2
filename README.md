@@ -19,3 +19,30 @@ Before starting, ensure you have the following installed on your machine:
 ```bash
 git clone <repository-url>
 cd <repository-url>
+
+
+python -m venv venv
+venv\\Scripts\\activate       # On Windows
+
+
+pip install -r requirements.txt
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+
+python manage.py makemigrations
+python manage.py migrate
+
+
+python manage.py createsuperuser
+
+
+python manage.py runserver
+
+
