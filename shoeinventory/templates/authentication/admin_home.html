@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/admin_home.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h1>Admin Dashboard</h1>
+        </header>
+
+        <!-- Display Registered Users -->
+        <section class="users-list">
+            <h2>Registered Users</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Date Joined</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.date_joined }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">No users found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Shoes Inventory Table -->
+        <section class="inventory">
+            <h2>Inventory</h2>
+
+            <!-- Category Filter -->
+            <form method="GET" class="category-filter-form">
+                <label for="category">Filter by Category:</label>
+                <select name="category" id="category">
+                    <option value="">All Categories</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}" {% if selected_category == category.id %}selected{% endif %}>
+                            {{ category.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Filter</button>
+            </form>
+
+            {% if shoes %}
+            <div class="table-container">
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Brand</th>
+                            <th>Price</th>
+                            <th>Size</th>
+                            <th>Stock</th>
+                            <th>Category</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for shoe in shoes %}
+                        <tr>
+                            <td>
+                                {% if shoe.image %}
+                                    <img src="{{ shoe.image.url }}" alt="{{ shoe.name }}" class="shoe-image">
+                                {% else %}
+                                    <p>No Image</p>
+                                {% endif %}
+                            </td>
+                            <td>{{ shoe.name }}</td>
+                            <td>{{ shoe.brand }}</td>
+                            <td>${{ shoe.price }}</td>
+                            <td>{{ shoe.size }}</td>
+                            <td>{{ shoe.stock_quantity }}</td>
+                            <td>
+                                {% if shoe.category %}
+                                    {{ shoe.category.name }}
+                                {% else %}
+                                    No Category
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'update_shoe' shoe.id %}" class="action-link">Update</a>
+                                <a href="{% url 'delete_shoe' shoe.id %}" class="action-link">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+                <p>No shoes available in the inventory.</p>
+            {% endif %}
+        </section>
+
+        <!-- Logout button -->
+        <div class="logout-button">
+            <a href="{% url 'signout' %}" class="btn">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

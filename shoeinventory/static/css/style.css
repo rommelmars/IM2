@@ -100,3 +100,12 @@ input[type="password"] {
     border-radius: 5px; 
     box-sizing: border-box; 
 }
+
+.error-messages {
+    color: red;
+    margin-bottom: 20px;
+}
+
+.error {
+    margin: 5px 0;
+}

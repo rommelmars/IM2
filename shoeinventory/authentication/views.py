@@ -23,6 +23,46 @@ import json
 from django.http import JsonResponse
 
 
+# Admin Views
+
+def admin_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('pass1')
+
+        # Authenticate the user
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            if user.is_superuser:
+                # If the user is a superuser, log them in
+                login(request, user)
+                return redirect('admin_home')  # Redirect to admin home
+            else:
+                # If the user is not a superuser, show an error message
+                messages.error(request, "You must be a superuser to log in.")
+                return redirect('admin_login')
+        else:
+            # If authentication failed (wrong credentials)
+            messages.error(request, "Invalid username or password.")
+            return redirect('admin_login')
+
+    return render(request, 'authentication/admin_login.html')
+
+def admin_home(request):
+    # Check if the user is authenticated and is a superuser
+    if not request.user.is_authenticated or not request.user.is_superuser:
+        return redirect('home')  # Redirect to the home page if not authenticated or not a superuser
+    
+    # Get all users from the database
+    users = User.objects.all()
+    
+    # Pass the users to the template
+    return render(request, 'authentication/admin_home.html', {'users': users})
+
+def admin_logout(request):
+    logout(request)  # Log out the user
+    return redirect('home')  # Redirect to home page after logout
 
 
 def home(request):

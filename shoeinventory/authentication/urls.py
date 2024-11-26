@@ -23,6 +23,9 @@ urlpatterns = [
     path('search/', views.search_products, name='search_products'),
     path('personal_information/', personal_information, name='personal_information'),
     path('dashboard/api/', views.dashboard_api, name='dashboard_api'),
+    path('admin_login/', views.admin_login, name='admin_login'),
+    path('admin_home/', views.admin_home, name='admin_home'),
+    path('admin/logout/', views.admin_logout, name='admin_logout'),  # Logout URL
     
 ]
 
