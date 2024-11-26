@@ -57,8 +57,18 @@ def admin_home(request):
     # Get all users from the database
     users = User.objects.all()
     
-    # Pass the users to the template
-    return render(request, 'authentication/admin_home.html', {'users': users})
+    # Get all shoes from the database
+    shoes = Shoe.objects.all()  # Fetch all shoes
+    
+    # Get all categories for the filter dropdown
+    categories = Category.objects.all()
+
+    # Pass the users, shoes, and categories to the template
+    return render(request, 'authentication/admin_home.html', {
+        'users': users,
+        'shoes': shoes,
+        'categories': categories,  # Make categories available for filtering
+    })
 
 def admin_logout(request):
     logout(request)  # Log out the user
@@ -131,11 +141,11 @@ def inventory(request):
 
     if category_id:
         # If a category is selected, filter the shoes by that category
-        shoes = Shoe.objects.filter(user=request.user, category_id=category_id)
+        shoes = Shoe.objects.filter(category_id=category_id)
         selected_category = int(category_id)
     else:
         # Otherwise, show all shoes
-        shoes = Shoe.objects.filter(user=request.user)
+        shoes = Shoe.objects.all()  # Display shoes from all users
         selected_category = None
 
     return render(request, "authentication/inventory.html", {
@@ -146,7 +156,7 @@ def inventory(request):
 
 @login_required
 def inventory_list(request):
-    shoes = Shoe.objects.filter(user=request.user)   
+    shoes = Shoe.objects.all()  # Display shoes from all users
     return render(request, 'inventory.html', {'shoes': shoes})
 
 @login_required
@@ -205,7 +215,8 @@ def create_sale(request):
         form = SaleForm(request.POST)
         if form.is_valid():
             sale = form.save(commit=False)
-            sale.user = request.user
+            # Remove the user-specific filter so anyone can create a sale for any shoe
+            sale.user = request.user  # Assign the current logged-in user to the sale
             try:
                 sale.save()
                 return redirect('inventory')
@@ -222,8 +233,8 @@ def sales_report(request):
     category_id = request.GET.get('category')  # Selected category ID
     sort_by = request.GET.get('sort', 'date')  # Sorting criteria
 
-    # Fetch sales data
-    sales = Sale.objects.filter(user=request.user).order_by('-date')
+    # Fetch sales data (showing sales across all users)
+    sales = Sale.objects.all().order_by('-date')  # Remove filter by user
 
     # Apply category filter if selected
     if category_id:

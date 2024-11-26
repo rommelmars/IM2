@@ -7,8 +7,8 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f6f9;
-    color: #333;
+    background-color: #191414; /* Dark background similar to Spotify */
+    color: #fff; /* White text for contrast */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -16,10 +16,11 @@ body {
 
 /* Header Section */
 header {
-    background-color: #333;
+    background-color: #1DB954; /* Spotify Green */
     color: white;
     padding: 15px 20px;
     text-align: center;
+    border-bottom: 4px solid #1AA34A; /* Darker green border for style */
 }
 
 header h1 {
@@ -38,30 +39,31 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
-    background-color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #333; /* Dark background for tables */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     border-radius: 8px;
 }
 
 table th, table td {
     padding: 12px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #444; /* Darker borders for table rows */
 }
 
 table th {
-    background-color: #007bff;
+    background-color: #1DB954; /* Spotify Green */
     color: white;
     font-weight: bold;
 }
 
 table td {
-    background-color: #f9f9f9;
+    background-color: #222; /* Darker background for table data */
+    color: #ccc; /* Lighter text color */
 }
 
 /* Hover Effect */
 table tr:hover td {
-    background-color: #f1f1f1;
+    background-color: #333; /* Slightly lighter background on hover */
 }
 
 /* Empty Data Row Styling */
@@ -74,7 +76,7 @@ table tbody tr td[colspan="6"] {
 /* Button Styling */
 a {
     display: inline-block;
-    background-color: #007bff;
+    background-color: #1DB954; /* Spotify Green */
     color: white;
     padding: 10px 20px;
     border-radius: 5px;
@@ -85,13 +87,76 @@ a {
 }
 
 a:hover {
-    background-color: #0056b3;
+    background-color: #1AA34A; /* Darker green on hover */
+}
+
+/* Specific adjustments for the inventory (shoes) section */
+.inventory-table td {
+    text-align: center;
+}
+
+.shoe-image {
+    max-width: 80px;  /* Control the width of images */
+    max-height: 80px; /* Control the height of images */
+    object-fit: cover; /* Make sure the image fits the box without distortion */
+}
+
+/* Category Filter Form */
+.category-filter-form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.category-filter-form label {
+    color: #ccc;
+    margin-right: 10px;
+}
+
+.category-filter-form select {
+    padding: 8px;
+    margin-right: 10px;
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 5px;
+}
+
+.category-filter-form button {
+    background-color: #1DB954;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.category-filter-form button:hover {
+    background-color: #1AA34A;
+}
+
+/* Logout Button */
+.logout-button {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.logout-button a {
+    background-color: #e60000; /* Red for logout */
+    padding: 12px 25px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button a:hover {
+    background-color: #d10000;
 }
 
 /* Footer */
 footer {
-    background-color: #333;
-    color: white;
+    background-color: #191414; /* Same as body background */
+    color: #ccc;
     text-align: center;
     padding: 10px;
     margin-top: 30px;
@@ -113,5 +178,10 @@ footer p {
 
     a {
         padding: 8px 15px;
+    }
+
+    .shoe-image {
+        max-width: 60px;
+        max-height: 60px;
     }
 }
