@@ -18,13 +18,18 @@ Before starting, ensure you have the following installed on your machine:
    ```bash
    git clone <repository-url>
    cd <repository-url>
-python -m venv venvpython manage.py makemigrations
-python manage.py migrate
 
-venv\Scripts\activate       # On Windows
-pip install -r requirements.txt
+2. Setup a Virtual Environment
+   ```bash
+   python -m venv venv
+3. Install Dependencies
+   ```bash
+   pip install -r requirements.txt
 
-DATABASES = {
+4. Configure Database
+   settings.py
+   
+   DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
@@ -32,12 +37,20 @@ DATABASES = {
 }
 
 
-python manage.py makemigrations
-python manage.py migrate
+5. Apply Migrations
+   ```bash
+   python manage.py makemigrations
+   python manage.py migrate
+
+6. Create a Superuser
+   ```bash
+   python manage.py createsuperuser
+
+7. Start the Development Server
+   ```bash
+   python manage.py runserver
+
+### Features
 
 
-python manage.py createsuperuser
-
-
-python manage.py runserver
-
+   
