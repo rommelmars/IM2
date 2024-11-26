@@ -53,21 +53,39 @@ def admin_home(request):
     # Check if the user is authenticated and is a superuser
     if not request.user.is_authenticated or not request.user.is_superuser:
         return redirect('home')  # Redirect to the home page if not authenticated or not a superuser
-    
+
     # Get all users from the database
     users = User.objects.all()
-    
-    # Get all shoes from the database
-    shoes = Shoe.objects.all()  # Fetch all shoes
-    
+
     # Get all categories for the filter dropdown
     categories = Category.objects.all()
 
-    # Pass the users, shoes, and categories to the template
+    # Get selected category from GET parameters
+    selected_category = request.GET.get('category')
+
+    # Filter shoes by selected category or show all
+    if selected_category:
+        shoes = Shoe.objects.filter(category_id=selected_category)
+    else:
+        shoes = Shoe.objects.all()  # Fetch all shoes if no category is selected
+
+    # Get all sales and group them by date
+    sales = Sale.objects.select_related('user', 'shoe').order_by('-date')  # Prefetch user and shoe for efficiency
+
+    grouped_sales = {}
+    for sale in sales:
+        sale_date = localtime(sale.date).date()  # Convert to local date
+        if sale_date not in grouped_sales:
+            grouped_sales[sale_date] = []
+        grouped_sales[sale_date].append(sale)
+
+    # Pass the users, shoes, categories, and grouped_sales to the template
     return render(request, 'authentication/admin_home.html', {
         'users': users,
         'shoes': shoes,
-        'categories': categories,  # Make categories available for filtering
+        'categories': categories,
+        'selected_category': int(selected_category) if selected_category else None,  # Ensure selected_category is an int
+        'grouped_sales': grouped_sales,  # Include grouped sales data
     })
 
 def admin_logout(request):
@@ -200,7 +218,7 @@ def update_shoe(request, shoe_id):
 def delete_shoe(request, shoe_id):
     shoe = get_object_or_404(Shoe, id=shoe_id)
     shoe.delete()
-    return redirect('inventory')
+    return redirect('admin_home')
 
 @login_required
 def profile_home(request):
@@ -229,12 +247,20 @@ def create_sale(request):
 
 @login_required
 def sales_report(request):
+    # Check if the user is an admin
+    is_admin = request.user.is_superuser
+
+    # Fetch sales data:
+    if is_admin:
+        # Admin can view all sales
+        sales = Sale.objects.all().order_by('-date')
+    else:
+        # Regular users can only view their own sales
+        sales = Sale.objects.filter(user=request.user).order_by('-date')
+
     # Get filter and sorting options from query parameters
     category_id = request.GET.get('category')  # Selected category ID
     sort_by = request.GET.get('sort', 'date')  # Sorting criteria
-
-    # Fetch sales data (showing sales across all users)
-    sales = Sale.objects.all().order_by('-date')  # Remove filter by user
 
     # Apply category filter if selected
     if category_id:
@@ -246,12 +272,10 @@ def sales_report(request):
     elif sort_by == 'total_amount':
         sales = sales.order_by('-total_amount')
 
-    # Group sales by date (convert to PH time)
+    # Group sales by date
     grouped_sales = {}
     for sale in sales:
-        # Convert to PH time zone using django.utils.timezone.localtime
-        sale_date = localtime(sale.date).date()
-
+        sale_date = localtime(sale.date).date()  # Convert to local timezone
         if sale_date not in grouped_sales:
             grouped_sales[sale_date] = []
         grouped_sales[sale_date].append(sale)
@@ -264,6 +288,7 @@ def sales_report(request):
         'categories': categories,
         'selected_category': int(category_id) if category_id else None,
         'sort_by': sort_by,
+        'is_admin': is_admin,  # Indicate if the user is an admin
     }
     return render(request, 'authentication/sales_report.html', context)
 

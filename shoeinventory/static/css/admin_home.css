@@ -166,6 +166,21 @@ footer p {
     font-size: 1rem;
 }
 
+.inventory-table th, .inventory-table td {
+    padding: 10px;
+    text-align: left;
+}
+
+.inventory-table th {
+    background-color: #1db954;
+    color: white;
+    font-weight: bold;
+}
+
+.inventory-table td.admin-highlight {
+    font-weight: bold;
+    background-color: #f4f6f9;
+}
 /* Responsive Design */
 @media (max-width: 768px) {
     table {

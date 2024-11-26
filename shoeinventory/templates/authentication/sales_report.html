@@ -34,13 +34,17 @@
                 <li><a href="{% url 'create_sale' %}">Add Sales</a></li>
                 <li><a href="{% url 'add_shoe' %}">Add Shoe</a></li>
                 <li><a href="{% url 'sales_report' %}" class="active">Sales Report</a></li>
-                
             </ul>
-
         </aside>
         
         <main class="main-content">
             <h2>Sales Report</h2>
+
+            {% if is_admin %}
+                <p>Admin View: Viewing all sales records.</p>
+            {% else %}
+                <p>Your personalized sales report.</p>
+            {% endif %}
 
             {% if grouped_sales %}
                 {% for date, sales in grouped_sales.items %}
@@ -48,6 +52,10 @@
                 <table class="inventory-table">
                     <thead>
                         <tr>
+                            {% if is_admin %}
+                                <th>User ID</th>
+                                <th>Username</th>
+                            {% endif %}
                             <th>Image</th>
                             <th>Product Sold</th>
                             <th>Category</th>
@@ -59,6 +67,10 @@
                     <tbody>
                         {% for sale in sales %}
                         <tr>
+                            {% if is_admin %}
+                                <td>{{ sale.user.id }}</td>
+                                <td>{{ sale.user.username }}</td>
+                            {% endif %}
                             <td>
                                 {% if sale.shoe and sale.shoe.image %}
                                     <img src="{{ sale.shoe.image.url }}" alt="{{ sale.shoe.name }}" style="width: 100px; height: auto;">
@@ -81,7 +93,7 @@
                                 {% endif %}
                             </td>
                             <td>{{ sale.quantity_sold }}</td>
-                            <td>${{ sale.total_amount }}</td>
+                            <td>₱{{ sale.total_amount }}</td>
                             <td>{{ sale.date|date:"h:i A" }}</td>
                         </tr>
                         {% endfor %}

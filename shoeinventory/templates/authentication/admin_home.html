@@ -91,9 +91,9 @@
                             </td>
                             <td>{{ shoe.name }}</td>
                             <td>{{ shoe.brand }}</td>
-                            <td>${{ shoe.price }}</td>
+                            <td>₱{{ shoe.price }}</td>
                             <td>{{ shoe.size }}</td>
-                            <td>{{ shoe.stock_quantity }}</td>
+                            <td>{{ shoe.stock }}</td>
                             <td>
                                 {% if shoe.category %}
                                     {{ shoe.category.name }}
@@ -112,6 +112,65 @@
             </div>
             {% else %}
                 <p>No shoes available in the inventory.</p>
+            {% endif %}
+        </section>
+
+        <!-- Sales Review Table -->
+        <section class="sales-review">
+            <h2>Sales Review</h2>
+
+            {% if grouped_sales %}
+                {% for date, sales in grouped_sales.items %}
+                <h3>Sales for {{ date|date:"Y-m-d" }}</h3>
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Username</th>
+                            <th>Image</th>
+                            <th>Product Sold</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Total Amount</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sale in sales %}
+                        <tr>
+                            <td>{{ sale.user.id }}</td>
+                            <td>{{ sale.user.username }}</td>
+                            <td>
+                                {% if sale.shoe and sale.shoe.image %}
+                                    <img src="{{ sale.shoe.image.url }}" alt="{{ sale.shoe.name }}" class="shoe-image">
+                                {% else %}
+                                    <span>No Image</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if sale.shoe %}
+                                    {{ sale.shoe.name }} ({{ sale.shoe.brand }})
+                                {% else %}
+                                    {{ sale.shoe_name }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if sale.shoe and sale.shoe.category %}
+                                    {{ sale.shoe.category.name }}
+                                {% else %}
+                                    No Category
+                                {% endif %}
+                            </td>
+                            <td>{{ sale.quantity_sold }}</td>
+                            <td>₱{{ sale.total_amount }}</td>
+                            <td>{{ sale.date|date:"h:i A" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endfor %}
+            {% else %}
+                <p>No sales data available.</p>
             {% endif %}
         </section>
 

@@ -67,7 +67,6 @@
                             <th>Size</th>
                             <th>Stock</th>
                             <th>Category</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -82,7 +81,7 @@
                             </td>
                             <td>{{ shoe.name }}</td>
                             <td>{{ shoe.brand }}</td>
-                            <td>${{ shoe.price }}</td>
+                            <td>₱{{ shoe.price }}</td>
                             <td>{{ shoe.size }}</td>
                             <td>{{ shoe.stock }}</td>
                             <td>
@@ -91,10 +90,6 @@
                                 {% else %}
                                     No Category
                                 {% endif %}
-                            </td>
-                            <td>
-                                <a href="{% url 'update_shoe' shoe.id %}" class="action-link">Update</a>
-                                <a href="{% url 'delete_shoe' shoe.id %}" class="action-link">Delete</a>
                             </td>
                         </tr>
                         {% endfor %}
