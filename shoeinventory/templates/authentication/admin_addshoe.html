@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Shoe</title>
+    <link rel="stylesheet" href="{% static 'css/admin_addshoe.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header>
+            <h1>Add New Shoe</h1>
+        </header>
+
+        <main class="main-content">
+            <!-- Display the form -->
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                
+                <button type="submit" class="btn">Add Shoe</button>  <!-- Submit button to add the shoe -->
+            </form>
+
+            <!-- Back to dashboard link -->
+            <div class="back-to-dashboard">
+                <a href="{% url 'admin_home' %}" class="btn">Back to Dashboard</a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -26,7 +26,7 @@ urlpatterns = [
     path('admin_login/', views.admin_login, name='admin_login'),
     path('admin_home/', views.admin_home, name='admin_home'),
     path('admin/logout/', views.admin_logout, name='admin_logout'),  # Logout URL
-    
+    path('admin_add_shoe/', views.admin_add_shoe, name='admin_add_shoe'),
 ]
 
 if settings.DEBUG:

@@ -178,6 +178,20 @@ def inventory_list(request):
     return render(request, 'inventory.html', {'shoes': shoes})
 
 @login_required
+def admin_add_shoe(request):
+    if request.method == 'POST':
+        form = ShoeForm(request.POST, request.FILES)
+        if form.is_valid():
+            shoe = form.save(commit=False)
+            shoe.user = request.user  # Assign the current user to the shoe
+            shoe.save()  # Save the shoe to the database
+            return redirect('admin_home')  # Redirect to the admin home page after successful add
+    else:
+        form = ShoeForm()  # Create an empty form if it's a GET request
+    
+    return render(request, 'authentication/admin_addshoe.html', {'form': form})
+
+@login_required #remov
 def add_shoe(request):
     if request.method == 'POST':
         form = ShoeForm(request.POST, request.FILES)
@@ -230,16 +244,34 @@ def create_sale(request):
     categories = Category.objects.all()  # Fetch all categories
 
     if request.method == 'POST':
+        print("Form submission started.")  # Debug log
         form = SaleForm(request.POST)
         if form.is_valid():
             sale = form.save(commit=False)
-            # Remove the user-specific filter so anyone can create a sale for any shoe
             sale.user = request.user  # Assign the current logged-in user to the sale
-            try:
+
+            # Get the shoe being sold
+            shoe = sale.shoe  # Assuming `shoe` is a field in the Sale model
+
+            print(f"Initial stock: {shoe.stock}, Quantity sold: {sale.quantity_sold}")  # Debug log
+
+            # Check stock availability
+            if sale.quantity_sold > shoe.stock:
+                form.add_error(None, f"Not enough stock available for {shoe.name}.")
+            else:
+                # Deduct stock and save
+                shoe.stock -= sale.quantity_sold
+                shoe.save()
+                print(f"Updated stock: {shoe.stock}")  # Debug log
+
+                # Calculate the total amount and save the sale
+                sale.total_amount = sale.quantity_sold * shoe.price
                 sale.save()
-                return redirect('inventory')
-            except ValueError as e:
-                form.add_error(None, str(e))  # Add any unexpected errors to the form
+                print(f"Sale saved. Total amount: {sale.total_amount}")  # Debug log
+
+                # Redirect or notify user of successful sale
+                return redirect('sales_report')  # Redirect to the sales report page
+    
     return render(request, 'authentication/create_sale.html', {
         'form': form,
         'categories': categories,
@@ -290,7 +322,17 @@ def sales_report(request):
         'sort_by': sort_by,
         'is_admin': is_admin,  # Indicate if the user is an admin
     }
-    return render(request, 'authentication/sales_report.html', context)
+
+    # Pass sales data in a way that user can only see their own sales
+    if not is_admin:
+        # For regular users, we do not want to expose user info (ID, username) of other users
+        for date, sales_list in grouped_sales.items():
+            for sale in sales_list:
+                # Remove sensitive user information for regular users
+                sale.user_id = None
+                sale.user = None
+
+    return render(request, 'authentication/sales_report.html' if not is_admin else 'authentication/sales_report_admin.html', context)
 
 @login_required
 def search_products(request):
