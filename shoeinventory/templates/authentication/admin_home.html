@@ -144,22 +144,22 @@
                             <td>{{ sale.user.id }}</td>
                             <td>{{ sale.user.username }}</td>
                             <td>
-                                {% if sale.shoe and sale.shoe.image %}
-                                    <img src="{{ sale.shoe.image.url }}" alt="{{ sale.shoe.name }}" class="shoe-image">
+                                {% if sale.shoe_image %}
+                                    <img src="{{ sale.shoe_image.url }}" alt="{{ sale.shoe_name }}" class="shoe-image">
                                 {% else %}
                                     <span>No Image</span>
                                 {% endif %}
                             </td>
                             <td>
                                 {% if sale.shoe %}
-                                    {{ sale.shoe.name }} ({{ sale.shoe.brand }})
+                                    {{ sale.shoe_name }} ({{ sale.shoe.brand }})
                                 {% else %}
                                     {{ sale.shoe_name }}
                                 {% endif %}
                             </td>
                             <td>
-                                {% if sale.shoe and sale.shoe.category %}
-                                    {{ sale.shoe.category.name }}
+                                {% if sale.shoe_category %}
+                                    {{ sale.shoe_category.name }}
                                 {% else %}
                                     No Category
                                 {% endif %}
