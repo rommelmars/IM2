@@ -21,6 +21,9 @@ from django.db.models import Sum, F, Count
 from decimal import Decimal
 import json
 from django.http import JsonResponse
+from django.db import transaction
+from django.db.models import F
+
 
 
 # Admin Views
@@ -244,33 +247,33 @@ def create_sale(request):
     categories = Category.objects.all()  # Fetch all categories
 
     if request.method == 'POST':
-        print("Form submission started.")  # Debug log
         form = SaleForm(request.POST)
         if form.is_valid():
-            sale = form.save(commit=False)
-            sale.user = request.user  # Assign the current logged-in user to the sale
+            try:
+                with transaction.atomic():  # Ensures all operations succeed or none are applied
+                    sale = form.save(commit=False)
+                    sale.user = request.user  # Assign the current logged-in user to the sale
 
-            # Get the shoe being sold
-            shoe = sale.shoe  # Assuming `shoe` is a field in the Sale model
+                    # Get the shoe being sold
+                    shoe = Shoe.objects.select_for_update().get(id=sale.shoe.id)
 
-            print(f"Initial stock: {shoe.stock}, Quantity sold: {sale.quantity_sold}")  # Debug log
+                    # Check stock availability
+                    if sale.quantity_sold > shoe.stock:  # Fetch actual stock value
+                        form.add_error(None, f"Not enough stock available for {shoe.name}.")
+                    else:
+                        # Deduct stock
+                        shoe.stock -= sale.quantity_sold
+                        shoe.save(update_fields=['stock'])  # Update only the stock field
 
-            # Check stock availability
-            if sale.quantity_sold > shoe.stock:
-                form.add_error(None, f"Not enough stock available for {shoe.name}.")
-            else:
-                # Deduct stock and save
-                shoe.stock -= sale.quantity_sold
-                shoe.save()
-                print(f"Updated stock: {shoe.stock}")  # Debug log
+                        # Calculate the total amount and save the sale
+                        sale.total_amount = sale.quantity_sold * shoe.price
+                        sale.save()
 
-                # Calculate the total amount and save the sale
-                sale.total_amount = sale.quantity_sold * shoe.price
-                sale.save()
-                print(f"Sale saved. Total amount: {sale.total_amount}")  # Debug log
-
-                # Redirect or notify user of successful sale
-                return redirect('sales_report')  # Redirect to the sales report page
+                        # Redirect or notify user of successful sale
+                        messages.success(request, "Sale recorded successfully!")
+                        return redirect('sales_report')  # Redirect to the sales report page
+            except Exception as e:
+                form.add_error(None, f"An error occurred: {str(e)}")
     
     return render(request, 'authentication/create_sale.html', {
         'form': form,
