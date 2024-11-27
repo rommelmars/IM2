@@ -1,104 +1,105 @@
+/* General Reset */
 body {
     margin: 0;
     padding: 0;
-    height: 100vh; 
-    display: flex; 
-    font-family: 'Futura', sans-serif; 
+    height: 100vh;
+    display: flex;
+    font-family: 'Futura', sans-serif;
 }
 
 .left-half {
-    flex: 1; 
-    background-image: url('../images/logo.png'); 
-    background-size: auto 100%; 
+    flex: 1;
+    background-image: url('../images/logo.png');
+    background-size: auto 100%;
     background-repeat: no-repeat;
-    background-position: center; 
-    height: 100vh; 
+    background-position: center;
+    height: 100vh;
     overflow: hidden;
 }
 
 .right-half {
-    flex: 1; 
-    background-color: white; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    height: 100vh; 
+    flex: 1;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 
 .title {
-    position: absolute; 
-    top: 3px; 
-    left: 730px; 
-    color: black; 
-    font-size: 28px; 
-    z-index: 1; 
+    position: absolute;
+    top: 3px;
+    left: 730px;
+    color: black;
+    font-size: 28px;
+    z-index: 1;
 }
 
 .container {
-    background-color: rgba(187, 207, 187, 0.301); 
-    padding: 20px; 
-    border-radius: 2px; 
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
-    width: 400px; 
-    text-align: center; 
-    align-items: flex-start; 
-    margin-top: 5px; 
+    background-color: rgba(187, 207, 187, 0.301);
+    padding: 20px;
+    border-radius: 2px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+    align-items: flex-start;
+    margin-top: 5px;
 }
 
 h2 {
-    font-size: 20px; 
+    font-size: 20px;
 }
 
 p {
-    margin: 10px 0; 
+    margin: 10px 0;
 }
 
 form div {
-    margin-bottom: 15px; 
+    margin-bottom: 15px;
 }
 
 button {
-    width: 100%; 
-    padding: 10px; 
-    background-color: rgb(0, 0, 0); 
-    color: white; 
-    border: none; 
-    border-radius: 5px; 
-    cursor: pointer; 
+    width: 100%;
+    padding: 10px;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 button:hover {
-    background-color: hsl(303, 85%, 47%); 
+    background-color: hsl(303, 85%, 47%);
 }
 
 .signup-button {
-    background-color: hsl(240, 100%, 27%); 
-    border: none; 
-    border-radius: 5px; 
-    padding: 15px 10px; 
-    cursor: pointer; 
+    background-color: hsl(240, 100%, 27%);
+    border: none;
+    border-radius: 5px;
+    padding: 15px 10px;
+    cursor: pointer;
 }
 
 form div {
-    margin-bottom: 15px; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: flex-start; 
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 label {
-    margin-bottom: 5px; 
-    font-weight: bold; 
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 input[type="text"],
 input[type="email"],
 input[type="password"] {
-    width: 100%; 
-    padding: 10px; 
-    border: 1px solid #ccc; 
-    border-radius: 5px; 
-    box-sizing: border-box; 
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
 
 .error-messages {
@@ -108,4 +109,47 @@ input[type="password"] {
 
 .error {
     margin: 5px 0;
+}
+
+/* Floating message box styles */
+.message-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    width: 300px;
+    padding: 15px;
+    border-radius: 5px;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    text-align: center;
+}
+
+.message-box .message {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.message-box .message.success {
+    background-color: #d4edda; /* Green for success */
+    color: #155724;
+}
+
+.message-box .message.error {
+    background-color: #f8d7da; /* Red for errors */
+    color: #721c24;
+}
+
+.message-box .message.warning {
+    background-color: #fff3cd; /* Yellow for warnings */
+    color: #856404;
+}
+
+/* Show the message box */
+.message-box.show {
+    display: block;
+    opacity: 1;
 }

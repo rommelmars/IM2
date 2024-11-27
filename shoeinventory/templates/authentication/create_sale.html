@@ -12,9 +12,6 @@
         <div class="logo">
             <img src="{% static 'images/logo.png' %}" alt="Sapatosan Logo" class="logo">
         </div>
-        <div class="search-container">
-            <input type="text" placeholder="🔍Search..." class="search-bar">
-        </div>
         <div class="header-right">
             <div class="dropdown">
                 <span class="welcome-message">Welcome, {{ user.username }}</span>
@@ -27,11 +24,13 @@
     <div class="container">
         <aside class="sidebar">
             <ul>
-                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                <li><a href="{% url 'inventory' %}">Inventory</a></li>
-                <li><a href="{% url 'create_sale' %}" class="active">Add Sales</a></li>
-                <li><a href="{% url 'add_shoe' %}">Add Shoe</a></li>
-                <li><a href="{% url 'sales_report' %}">Sales Report</a></li>
+                <ul>
+                    <li><a href="{% url 'inventory' %}">Inventory</a></li>
+                    <li><a href="{% url 'create_sale' %}" class="active">Add Sales</a></li>
+                    <li><a href="{% url 'sales_report' %}">Sales Report</a></li>
+                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                    
+                </ul>
                 
             </ul>
 

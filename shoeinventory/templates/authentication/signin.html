@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    {%load static %}
+    {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
@@ -15,7 +15,16 @@
             <h2>Welcome Back!</h2> 
             <p>We're so excited to see you again!</p> 
 
-        
+            <!-- Display success or error messages -->
+            {% if messages %}
+                <div class="message-box show" id="message-box">
+                    {% for message in messages %}
+                        <div class="message {{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
             <form method="POST">
                 {% csrf_token %}
@@ -35,5 +44,21 @@
             </form>
         </div>
     </div>
+
+    <script>
+        // Hide the message box after 5 seconds
+        window.addEventListener('DOMContentLoaded', function() {
+            var messageBox = document.getElementById('message-box');
+            if (messageBox) {
+                // Immediately show the message box
+                messageBox.classList.add('show');
+                
+                // Hide the message box after 5 seconds
+                setTimeout(function() {
+                    messageBox.classList.remove('show');
+                }, 1000); // Adjust the duration as needed
+            }
+        });
+    </script>
 </body>
 </html>

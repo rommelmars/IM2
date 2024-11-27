@@ -135,11 +135,12 @@ def signin(request):
         if user is not None:
             # login sa user
             login(request, user)
-            messages.success(request, f"Welcome, {username}! You have successfully logged in.")
-            return redirect('dashboard')  # Redirect to profile home
+            return redirect('inventory')  
         else:
-            messages.error(request, "Invalid username or password.") 
+            messages.error(request, "Invalid username or password. Please try again.") 
             return redirect('signin')
+        
+    messages.get_messages(request).used = True
 
     return render(request, "authentication/signin.html")
 
