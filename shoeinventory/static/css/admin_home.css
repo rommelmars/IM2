@@ -53,6 +53,30 @@ table td {
     color: #ccc;
 }
 
+.button {
+    display: inline-block;
+    padding: 8px 12px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    background-color: #4CAF50; /* Green */
+    border: 1px solid #4CAF50;
+}
+
+.action-button {
+    margin: 2px;
+}
+
+.update-button {
+    background-color: #4CAF50; /* Green */
+    border: 1px solid #4CAF50;
+}
+
+
 .btn {
     display: inline-block;
     padding: 8px 12px;
@@ -109,10 +133,26 @@ table td {
     margin-right: 10px;
 }
 
-.category-filter-form select, .category-filter-form button {
-    margin-right: 10px;
+.category-filter-form button {
+    background-color: #1DB954; /* Spotify green */
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
 }
 
+/* Hover effect for filter button */
+.category-filter-form button:hover {
+    background-color: #1ed760; /* Slightly lighter green for hover effect */
+}
+
+/* Adding padding and margin for consistency */
+.category-filter-form button {
+    margin-right: 10px; /* Already added but making sure it's consistent */
+}
 .add-shoe-btn {
     background-color: #28a745;
     padding: 8px 20px;

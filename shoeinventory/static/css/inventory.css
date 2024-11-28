@@ -219,3 +219,30 @@ h3 {
     background-color: #218838; /* Darker green on hover, same as logout button */
     color: #000000; /* Ensure black text on hover */
 }
+.category-filter-form button {
+    background-color: #1DB954; /* Spotify green */
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for filter button */
+.category-filter-form button:hover {
+    background-color: #1ed760; /* Slightly lighter green for hover effect */
+}
+
+/* Adding padding and margin for consistency */
+.category-filter-form button {
+    margin-right: 10px; /* Already added but making sure it's consistent */
+}
+
+@media (max-width: 768px) {
+    .filter-add-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

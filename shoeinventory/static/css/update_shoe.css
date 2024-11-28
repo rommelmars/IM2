@@ -1,0 +1,127 @@
+/* General body styling with Spotify-inspired colors */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #191414; /* Spotify's dark background */
+    color: #e0e0e0; /* Light text for contrast */
+}
+
+/* Container for flex layout */
+.container {
+    display: flex;
+    height: 100vh; /* Full screen height */
+}
+
+/* Sidebar styling */
+.sidebar {
+    width: 240px;
+    background-color: #121212; /* Slightly darker for sidebar */
+    padding: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    box-shadow: 3px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Sidebar links */
+.sidebar a {
+    font-size: 18px;
+    color: #b3b3b3;
+    text-decoration: none;
+    padding: 12px 20px;
+    margin: 8px 0;
+    width: 100%;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+}
+
+/* Hover effect for links */
+.sidebar a:hover {
+    background-color: #1db954; /* Spotify green */
+    color: #ffffff;
+}
+
+/* Active link (current page) */
+.sidebar a.active {
+    background-color: #1db954;
+    color: #ffffff;
+    border: 2px solid #1db954;
+}
+
+/* Main content section */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #191414; /* Matching dark background */
+    padding: 40px;
+    color: #ffffff; /* Light text */
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    max-width: 800px;
+    margin-left: 260px; /* Adjust for sidebar */
+}
+
+/* Heading styling (Update Shoe) */
+.main-content h2 {
+    font-size: 36px;
+    margin-bottom: 40px;
+    text-align: center;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* Form styling */
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+    align-items: center;
+    background-color: #121212; /* Dark background for form */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Label styling */
+form label {
+    font-size: 16px;
+    color: #b3b3b3;
+    align-self: flex-start;
+    margin-bottom: 8px;
+}
+
+/* Input and select field styling */
+form input,
+form select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #333333;
+    border-radius: 6px;
+    background-color: #333333;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+/* Button styling (Spotify green) */
+form button {
+    padding: 12px;
+    background-color: #1db954; /* Spotify green */
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Button hover effect */
+form button:hover {
+    background-color: #1ed760; /* Lighter green for hover effect */
+}

@@ -195,7 +195,7 @@ def admin_add_shoe(request):
     
     return render(request, 'authentication/admin_addshoe.html', {'form': form})
 
-@login_required #remov
+@login_required #removed
 def add_shoe(request):
     if request.method == 'POST':
         form = ShoeForm(request.POST, request.FILES)
@@ -226,7 +226,7 @@ def update_shoe(request, shoe_id):
         form = ShoeForm(request.POST, request.FILES, instance=shoe)  
         if form.is_valid():
             form.save()
-            return redirect('inventory')
+            return redirect('admin_home')
     else:
         form = ShoeForm(instance=shoe)
     

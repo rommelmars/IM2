@@ -58,14 +58,14 @@
                         {% for sale in sales %}
                         <tr>
                             <td>
-                                {% if sale.shoe and sale.shoe.image %}
-                                    <img src="{{ sale.shoe.image.url }}" alt="{{ sale.shoe.name }}" style="width: 100px; height: auto;">
-                                {% else %}
-                                    <span>No Image</span>
-                                {% endif %}
+                                {% if sale.shoe_image %}
+                                <img src="{{ sale.shoe_image.url }}" alt="{{ sale.shoe_name }}" class="shoe-image">
+                            {% else %}
+                                <span>No Image</span>
+                            {% endif %}
                             </td>
-                            <td>{{ sale.shoe.name }} ({{ sale.shoe.brand }})</td>
-                            <td>{{ sale.shoe.category.name }}</td>
+                            <td>{{ sale.shoe_name }} ({{ sale.shoe.brand }})</td>
+                            <td>{{ sale.shoe_category.name }}</td>
                             <td>{{ sale.quantity_sold }}</td>
                             <td>₱{{ sale.total_amount }}</td>
                             <td>{{ sale.date|date:"h:i A" }}</td>
