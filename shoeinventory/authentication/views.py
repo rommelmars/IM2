@@ -52,43 +52,79 @@ def admin_login(request):
 
     return render(request, 'authentication/admin_login.html')
 
+@login_required
 def admin_home(request):
-    # Check if the user is authenticated and is a superuser
     if not request.user.is_authenticated or not request.user.is_superuser:
-        return redirect('home')  # Redirect to the home page if not authenticated or not a superuser
+        return redirect('home')
 
     # Get all users from the database
     users = User.objects.all()
-
-    # Get all categories for the filter dropdown
     categories = Category.objects.all()
-
-    # Get selected category from GET parameters
     selected_category = request.GET.get('category')
 
     # Filter shoes by selected category or show all
-    if selected_category:
-        shoes = Shoe.objects.filter(category_id=selected_category)
-    else:
-        shoes = Shoe.objects.all()  # Fetch all shoes if no category is selected
+    shoes = Shoe.objects.all() if not selected_category else Shoe.objects.filter(category_id=selected_category)
 
     # Get all sales and group them by date
-    sales = Sale.objects.select_related('user', 'shoe').order_by('-date')  # Prefetch user and shoe for efficiency
-
+    sales = Sale.objects.select_related('user', 'shoe').order_by('-date')
     grouped_sales = {}
     for sale in sales:
-        sale_date = localtime(sale.date).date()  # Convert to local date
+        sale_date = localtime(sale.date).date()
         if sale_date not in grouped_sales:
             grouped_sales[sale_date] = []
         grouped_sales[sale_date].append(sale)
 
-    # Pass the users, shoes, categories, and grouped_sales to the template
+    # Total sales per month
+    sales_per_month = (
+        Sale.objects.annotate(month=F('date__month'))
+        .values('month')
+        .annotate(total_sales=Sum('total_amount'))
+        .order_by('month')
+    )
+    # Convert Decimal to float for JSON serialization
+    sales_data = [float(sale['total_sales']) if sale['total_sales'] else 0.0 for sale in sales_per_month]
+    sales_labels = [sale['month'] for sale in sales_per_month]
+
+    # Top 5 user sellers based on total sales amount
+    top_users = (
+        Sale.objects.values('user__username')
+        .annotate(total_sales=Sum('total_amount'))
+        .order_by('-total_sales')[:5]
+    )
+    top_user_sales_data = [float(user['total_sales']) for user in top_users]
+    top_user_labels = [user['user__username'] for user in top_users]
+
+    # Top 5 shoe sellers based on quantity sold
+    top_shoes = (
+        Sale.objects.values('shoe__name')
+        .annotate(total_sold=Sum('quantity_sold'))
+        .order_by('-total_sold')[:5]
+    )
+    top_shoes_data = [float(shoe['total_sold']) for shoe in top_shoes]
+    top_shoes_labels = [shoe['shoe__name'] for shoe in top_shoes]
+
+    # Lowest stock items
+    lowest_stock = Shoe.objects.order_by('stock')[:5]
+    lowest_stock_data = [shoe.stock for shoe in lowest_stock]
+    lowest_stock_labels = [shoe.name for shoe in lowest_stock]
+
+    # Pass everything to the template, ensuring chart data is serialized
     return render(request, 'authentication/admin_home.html', {
         'users': users,
         'shoes': shoes,
         'categories': categories,
-        'selected_category': int(selected_category) if selected_category else None,  # Ensure selected_category is an int
-        'grouped_sales': grouped_sales,  # Include grouped sales data
+        'selected_category': int(selected_category) if selected_category else None,
+        'grouped_sales': grouped_sales,
+
+        # Dashboard data for charts (passing JSON data)
+        'sales_data': json.dumps(sales_data),
+        'sales_labels': json.dumps(sales_labels),
+        'top_user_sales_data': json.dumps(top_user_sales_data),  # Top user sales data
+        'top_user_labels': json.dumps(top_user_labels),  # Top user labels
+        'top_shoes_data': json.dumps(top_shoes_data),
+        'top_shoes_labels': json.dumps(top_shoes_labels),
+        'lowest_stock_data': json.dumps(lowest_stock_data),
+        'lowest_stock_labels': json.dumps(lowest_stock_labels),
     })
 
 def admin_logout(request):
@@ -386,103 +422,4 @@ def personal_information(request):
 
     return render(request, "authentication/personal_information.html", {"user": request.user})
 
-@login_required
-def dashboard(request):
-    user = request.user  # Get the logged-in user
-    today = now()  # Get the current datetime
-    start_date = today - timedelta(days=6)  # Last 7 days
 
-    # Daily sales for the past 7 days, filtered by user
-    daily_sales = (
-        Sale.objects.filter(user=user, date__gte=start_date, date__lte=today)
-        .annotate(day=TruncDate('date'))
-        .values('day')
-        .annotate(total_sales=Sum('total_amount'))
-        .order_by('day')
-    )
-
-    # Prepare data for the chart (convert Decimal to float)
-    days = [day['day'].strftime('%Y-%m-%d') for day in daily_sales]
-    sales_values = [float(day['total_sales'] or 0) for day in daily_sales]  # Convert Decimal to float
-
-    # Total sales today, filtered by user
-    total_sales_today = Sale.objects.filter(user=user, date__date=today.date()).aggregate(
-        Sum('total_amount')
-    )['total_amount__sum'] or 0
-    total_sales_today = float(total_sales_today)  # Convert Decimal to float
-
-    # Sales growth calculation (example: percentage change compared to last week)
-    last_week_sales = Sale.objects.filter(
-        user=user, date__gte=start_date - timedelta(weeks=1), date__lte=start_date
-    ).aggregate(Sum('total_amount'))['total_amount__sum'] or 0
-    sales_growth = 0
-    if last_week_sales > 0:
-        sales_growth = ((total_sales_today - last_week_sales) / last_week_sales) * 100
-
-    # Prepare data for low-stock chart, filtered by user
-    low_stock_shoes = Shoe.objects.filter(user=user, stock__lte=10).order_by('stock')[:5]
-    low_stock_shoes_names = [shoe.name for shoe in low_stock_shoes]
-    low_stock_shoes_stocks = [shoe.stock for shoe in low_stock_shoes]
-
-    # Top-selling shoe, filtered by user
-    top_selling_shoe = (
-        Sale.objects.filter(user=user)
-        .values('shoe__name')
-        .annotate(total_sold=Sum('quantity_sold'))
-        .order_by('-total_sold')
-        .first()
-    )
-
-    context = {
-        'total_sales_today': total_sales_today,
-        'days': json.dumps(days),
-        'sales_values': json.dumps(sales_values),
-        'low_stock_shoes_names': json.dumps(low_stock_shoes_names),
-        'low_stock_shoes_stocks': json.dumps(low_stock_shoes_stocks),
-        'top_selling_shoe': top_selling_shoe['shoe__name'] if top_selling_shoe else 'N/A',
-        'sales_growth': sales_growth,
-    }
-
-    return render(request, 'authentication/dashboard.html', context)
-
-
-@login_required
-def dashboard_api(request):
-    today = localtime(now()).date()
-
-    # Total sales today (convert Decimal to float)
-    total_sales_today = Sale.objects.filter(date__date=today).aggregate(Sum('total_amount'))['total_amount__sum'] or 0
-    total_sales_today = float(total_sales_today)  # Convert Decimal to float
-
-    # Top-selling shoe
-    top_selling_shoe = (
-        Sale.objects.values('shoe__name')
-        .annotate(total_sold=Sum('quantity_sold'))
-        .order_by('-total_sold')
-        .first()
-    )
-
-    # Low stock shoes
-    low_stock_shoes = Shoe.objects.filter(stock__lte=10).order_by('stock')
-    low_stock_shoes_data = [{'name': shoe.name, 'stock': shoe.stock} for shoe in low_stock_shoes]
-
-    # Sales data for the last 7 days
-    last_7_days = Sale.objects.filter(date__gte=now() - timedelta(days=6))
-    daily_sales = (
-        last_7_days.annotate(date=TruncDate('date'))
-        .values('date')
-        .annotate(total_sales=Sum('total_amount'))
-    )
-
-    days = [entry['date'].strftime('%Y-%m-%d') for entry in daily_sales]
-    sales_values = [float(entry['total_sales'] or 0) for entry in daily_sales]  # Convert Decimal to float
-
-    return JsonResponse({
-        'total_sales_today': total_sales_today,
-        'top_selling_shoe': top_selling_shoe or {},
-        'low_stock_shoes': low_stock_shoes_data,
-        'days': days,
-        'sales_values': sales_values,
-        'low_stock_shoes_names': [shoe['name'] for shoe in low_stock_shoes_data],
-        'low_stock_shoes_stocks': [shoe['stock'] for shoe in low_stock_shoes_data],
-    })

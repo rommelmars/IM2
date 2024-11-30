@@ -1,134 +1,179 @@
 /* General Styling for Body */
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    color: #333;
-    line-height: 1.6;
-  }
-  
-  /* Header Styling */
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #FFFFFF;
-    color: #000000;
-    padding: 15px;
-  }
-  
-  .header .logo {
-    height: 100px;
-  }
-  
-  .nav-links a {
-    color: #000000;
-    margin: 0 15px;
-    text-decoration: none;
-  }
-  
-  .account-links a {
-    color: #000000;
-    margin: 0 10px;
-  }
-  
-  .username {
-    margin-right: 10px;
-  }
-  
-  /* Video Container Styling */
-  .video-container {
-    position: relative;
-    height: 400px; /* Adjust this value for the height of the video */
-    overflow: hidden;
-    margin-bottom: 20px; /* Adds space between the video and the next section */
-  }
-  
-  .video-teaser {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  
-  /* Poster Container Styling */
-  .posters-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 40px; /* Adds space between the video and posters */
-    padding-top: 40px; /* Adds padding to avoid overlap with video */
-  }
-  
-  .poster-container,
-  .poster2-container {
-    position: relative;
-    width: 100%;
-    height: 700px; /* Adjust the height to ensure it's longer */
-    overflow: hidden;
-    margin-top: 20px; /* Add some space above if necessary */
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
 }
-  .poster-image,
-  .poster2-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensures the image covers the area without distorting */
+
+/* Header Styling */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #FFFFFF;
+  color: #000000;
+  padding: 15px;
 }
-  
-  /* Spacer Styling for spacing between sections */
-  .spacer {
-    height: 20px;
-  }
-  
-  /* About Us Section Styling */
-  .about-us {
-    text-align: center;
-    padding: 40px 20px;
-    background-color: #fff;
-  }
-  
-  .about-us h2 {
-    font-size: 2em;
-    margin-bottom: 20px;
-  }
-  
-  /* Footer Styling */
-  .footer {
-    background-color: #FFFF;
-    color: #000000;
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .social-media a {
-    color: #000000;
-    margin: 0 15px;
-  }
-  
-  .social-icon {
-    font-size: 1.5em;
-  }
-  
-  .footer p {
-    margin-top: 20px;
-  }
-  
-  /* Animations for Fade-in and Slide-in */
-  .fade-in {
-    opacity: 0;
-    transition: opacity 2s ease-in;
-  }
-  
-  .fade-in.show {
-    opacity: 1;
-  }
-  
-  .slide-in {
-    transform: translateX(-100%);
-    transition: transform 1s ease-out;
-  }
-  
-  .slide-in.show {
-    transform: translateX(0);
-  }
-  
+
+.header .logo {
+  height: 100px;
+}
+
+.nav-links a {
+  color: #000000;
+  margin: 0 15px;
+  text-decoration: none;
+}
+
+.account-links a {
+  color: #000000;
+  margin: 0 10px;
+}
+
+.username {
+  margin-right: 10px;
+}
+
+/* Video Container Styling */
+.video-container {
+  position: relative;
+  height: 400px; /* Adjust this value for the height of the video */
+  overflow: hidden;
+  margin-bottom: 20px; /* Adds space between the video and the next section */
+}
+
+.video-teaser {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Poster Container Styling */
+.posters-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40px; /* Adds space between the video and posters */
+  padding-top: 40px; /* Adds padding to avoid overlap with video */
+}
+
+.poster-container,
+.poster2-container {
+  position: relative;
+  width: 100%;
+  height: 700px; /* Adjust the height to ensure it's longer */
+  overflow: hidden;
+  margin-top: 20px; /* Add some space above if necessary */
+}
+
+.poster-image,
+.poster2-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures the image covers the area without distorting */
+}
+
+/* Spacer Styling for spacing between sections */
+.spacer {
+  height: 20px;
+}
+
+/* About Us Section Styling */
+.about-us {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: #fff;
+}
+
+.about-us h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+/* Creator & Developer Section Styling */
+.creator-developer {
+text-align: center;
+padding: 40px 20px;
+background-color: #fff;
+}
+
+.creator-developer h2 {
+font-size: 2em;
+margin-bottom: 20px;
+}
+
+/* Developer Container */
+.developer-container {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 30px; /* Space between photo and description */
+flex-direction: column;
+}
+
+/* Developer Photo Styling */
+.developer-photo {
+width: 150px;
+height: 150px;
+border-radius: 50%;
+overflow: hidden;
+margin-bottom: 20px; /* Space below the photo */
+}
+
+.developer-photo img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+
+/* Developer Description Styling */
+.developer-description p {
+font-size: 1.1em;
+color: #333;
+max-width: 800px;
+margin: 0 auto;
+line-height: 1.6;
+}
+
+/* Footer Styling */
+.footer {
+background-color: #FFFF;
+color: #000000;
+text-align: center;
+padding: 20px;
+}
+
+.social-media a {
+color: #000000;
+margin: 0 15px;
+}
+
+.social-icon {
+font-size: 1.5em;
+}
+
+.footer p {
+margin-top: 20px;
+}
+
+/* Animations for Fade-in and Slide-in */
+.fade-in {
+opacity: 0;
+transition: opacity 2s ease-in;
+}
+
+.fade-in.show {
+opacity: 1;
+}
+
+.slide-in {
+transform: translateX(-100%);
+transition: transform 1s ease-out;
+}
+
+.slide-in.show {
+transform: translateX(0);
+}

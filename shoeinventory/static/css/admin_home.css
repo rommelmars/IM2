@@ -176,6 +176,49 @@ table td {
     background-color: #d10000;
 }
 
+.charts-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.chart-box {
+    width: 48%;  /* Keeps the charts side by side */
+    margin: 10px 0;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    padding: 20px;
+    height: 350px; /* Fixes the height for chart container */
+}
+
+canvas {
+    width: 100% !important;
+    height: 250px !important;  /* Set the height to avoid stretching */
+}
+
+h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: 600;
+}
+h6 {
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Optional: Styling for the overall dashboard container */
+.dashboard-container {
+    background-color: #000000; /* Light background for the whole page */
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+}
 @media (max-width: 768px) {
     .filter-add-container {
         flex-direction: column;

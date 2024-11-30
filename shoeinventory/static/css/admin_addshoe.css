@@ -18,6 +18,48 @@ html, body {
     height: 70px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+sidebar {
+    width: 200px;
+    background-color: #282828; /* Dark sidebar background */
+    padding: 20px;
+    height: 100vh;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar li {
+    margin: 15px 0;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: #c0c0c0;
+    display: block;
+    padding: 10px 15px;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 5px; /* Rounded corners */
+}
+
+.sidebar a:hover {
+    background-color: #28a745; /* Green hover effect */
+    color: #ffffff;
+}
+
+/* Active link (Inventory) styling */
+.sidebar a.active {
+    background-color: #28a745; /* Green background for active page */
+    color: #ffffff;
+    border: 2px solid #28a745; /* Border around the active link */
+}
+
+/* Green box styling on hover for all links */
+.sidebar a:not(.active):hover {
+    border: 2px solid #28a745; /* Green border on hover */
+}
+
 
 .logo img {
     width: 100px;

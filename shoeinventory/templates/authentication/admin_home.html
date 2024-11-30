@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,12 +7,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="{% static 'css/admin_home.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+
     <div class="dashboard-container">
         <header>
             <h1>Admin Dashboard</h1>
         </header>
+
+        <!-- Dashboard Tracker -->
+        <section class="dashboard-tracker">
+            <div class="charts-container">
+                <div class="chart-box">
+                    <h3>Top User Sellers</h3>
+                    <canvas id="topUserSellersChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>Top Selling Shoes</h3>
+                    <canvas id="topShoesChart"></canvas>
+                </div>
+                <div class="chart-box">
+                    <h3>Lowest Stock Items</h3>
+                    <canvas id="lowestStockChart"></canvas>
+                </div>
+            </div>
+        </section>
 
         <!-- Display Registered Users -->
         <section class="users-list">
@@ -124,7 +145,7 @@
 
             {% if grouped_sales %}
                 {% for date, sales in grouped_sales.items %}
-                <h3>Sales for {{ date|date:"Y-m-d" }}</h3>
+                <h6>Sales for {{ date|date:"Y-m-d" }}</h6>
                 <table class="inventory-table">
                     <thead>
                         <tr>
@@ -182,5 +203,161 @@
             <a href="{% url 'signout' %}" class="btn">Logout</a>
         </div>
     </div>
+
+    <!-- JavaScript to create the charts -->
+    <script>
+        // Retrieve the data passed from the view
+        const topUserLabels = JSON.parse('{{ top_user_labels|escapejs }}');
+        const topUserSalesData = JSON.parse('{{ top_user_sales_data|escapejs }}');
+        const topShoesData = JSON.parse('{{ top_shoes_data|escapejs }}');
+        const topShoesLabels = JSON.parse('{{ top_shoes_labels|escapejs }}');
+        const lowestStockData = JSON.parse('{{ lowest_stock_data|escapejs }}');
+        const lowestStockLabels = JSON.parse('{{ lowest_stock_labels|escapejs }}');
+    
+        // Create the top user sellers chart (Bar chart)
+        const topUserSellersChartCtx = document.getElementById('topUserSellersChart').getContext('2d');
+        new Chart(topUserSellersChartCtx, {
+            type: 'bar',
+            data: {
+                labels: topUserLabels,
+                datasets: [{
+                    label: 'Total Sales (₱)',
+                    data: topUserSalesData,
+                    backgroundColor: 'rgba(0, 255, 0, 0.6)', // Orange color
+                    borderColor: 'rgba(0, 255, 0, 0.6)',
+                    borderWidth: 1,
+                    borderRadius: 5,
+                    hoverBackgroundColor: 'rgba(0, 255, 0, 0.6)',
+                }],
+            },
+            options: {
+                responsive: true,
+                animation: {
+                    duration: 1000,
+                    easing: 'easeOutBounce'
+                },
+                plugins: {
+                    legend: { display: false },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            font: {
+                                size: 14,
+                                weight: '600',
+                                family: 'Arial'
+                            },
+                            color: '#333'
+                        },
+                        grid: {
+                            color: '#e0e0e0'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 14,
+                                weight: '600',
+                                family: 'Arial'
+                            },
+                            color: '#333'
+                        },
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+            },
+        });
+    
+        // Create the top 5 shoes chart (Horizontal Bar chart)
+        const topShoesChartCtx = document.getElementById('topShoesChart').getContext('2d');
+        new Chart(topShoesChartCtx, {
+            type: 'bar',
+            data: {
+                labels: topShoesLabels,
+                datasets: [{
+                    label: 'Total Sales (₱)',
+                    data: topShoesData,
+                    backgroundColor: 'rgba(0, 255, 0, 0.6)', // Green color
+                    borderColor: 'rgba(0, 255, 0, 1)',
+                    borderWidth: 1,
+                    borderRadius: 5,
+                    hoverBackgroundColor: 'rgba(0, 255, 0, 0.8)',
+                }],
+            },
+            options: {
+                responsive: true,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: {
+                            font: {
+                                size: 14,
+                                weight: '600',
+                                family: 'Arial'
+                            },
+                            color: '#333'
+                        }
+                    },
+                    y: {
+                        display: false,
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                },
+            },
+        });
+    
+        // Create the lowest stock items chart (Horizontal Bar chart)
+        const lowestStockChartCtx = document.getElementById('lowestStockChart').getContext('2d');
+        new Chart(lowestStockChartCtx, {
+            type: 'bar',
+            data: {
+                labels: lowestStockLabels,
+                datasets: [{
+                    label: 'Stock Level',
+                    data: lowestStockData,
+                    backgroundColor: 'rgba(255, 0, 0, 0.8)', // Green color
+                    borderColor: 'rgba(255, 0, 0, 0.8)',
+                    borderWidth: 1,
+                    borderRadius: 5,
+                    hoverBackgroundColor: 'rgba(255, 0, 0, 0.8)',
+                }],
+            },
+            options: {
+                responsive: true,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: {
+                            font: {
+                                size: 14,
+                                weight: '600',
+                                family: 'Arial'
+                            },
+                            color: '#333'
+                        }
+                    },
+                    y: {
+                        display: false,
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                },
+            },
+        });
+    </script>
 </body>
 </html>
