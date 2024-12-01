@@ -105,7 +105,7 @@ Step 6: Run the Development Server
 Step 7: Access the Login Admin Panel 
 To access the Django login admin panel, go to:
 
-      [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin_login/)
+      http://127.0.0.1:8000/admin_login/
 
 
 
