@@ -55,3 +55,39 @@ Rommel John L. Pobadora
 - **Frontend:** HTML, CSS, JavaScript
 
 ---
+## Installation
+
+## How to Clone and Run the Project
+
+Follow these steps to clone and run the project locally.
+
+### Step 1: Clone the Repository
+
+1. Open your terminal or command prompt.
+2. Navigate to the directory where you want to clone the project.
+3. Run the following command to clone the repository:
+
+   ```bash
+   git clone https://github.com/rommelmars/IM2.git
+4.After cloning, navigate into the project directory:
+    
+    ```bash
+    cd IM2
+Step 2: Set Up Virtual Environment
+It's recommended to set up a virtual environment to isolate the project's dependencies. Run the following command to create the virtual environment:
+
+      
+      python -m venv venv
+
+Activate the virtual environment:
+
+      
+      venv\Scripts\activate
+
+Step 3: Install Dependencies
+Install the required dependencies for the project by running:
+
+   ```bash
+      pip install -r requirements.txt
+
+
