@@ -7,6 +7,12 @@ Shoe Inventory Management System is a web-based program designed to help shoe sh
 
 ---
 
+### Member
+Rommel John L. Pobadora
+
+
+
+---
 ## Features
 
 ### 1. **User Management**
