@@ -71,7 +71,7 @@ Follow these steps to clone and run the project locally.
    git clone https://github.com/rommelmars/IM2.git
 4.After cloning, navigate into the project directory:
     
-    ```bash
+    
     cd IM2
 Step 2: Set Up Virtual Environment
 It's recommended to set up a virtual environment to isolate the project's dependencies. Run the following command to create the virtual environment:
@@ -87,7 +87,26 @@ Activate the virtual environment:
 Step 3: Install Dependencies
 Install the required dependencies for the project by running:
 
-   ```bash
+   
       pip install -r requirements.txt
+
+Step 4: Set Up the Database
+Apply the migrations to set up the database by running:
+
+      python manage.py makemigrations
+      python manage.py migrate
+Step 5: Create a Superuser 
+If you want to access the Django admin panel, create a superuser by running:
+
+      python manage.py createsuperuser
+Step 6: Run the Development Server
+
+      python manage.py runserver
+Step 7: Access the Login Admin Panel 
+To access the Django login admin panel, go to:
+
+      [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin_login/)
+
+
 
 
