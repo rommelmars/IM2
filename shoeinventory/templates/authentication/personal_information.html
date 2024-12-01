@@ -14,13 +14,20 @@
 
         <!-- Notification Messages -->
         {% if messages %}
-            <div class="messages">
+            <div class="messages" id="messages">
                 {% for message in messages %}
                     <div class="message {{ message.tags }}">
                         {{ message }}
                     </div>
                 {% endfor %}
             </div>
+            <script>
+                // Auto-hide messages after 5 seconds
+                setTimeout(() => {
+                    const messagesDiv = document.getElementById('messages');
+                    if (messagesDiv) messagesDiv.style.display = 'none';
+                }, 5000);
+            </script>
         {% endif %}
 
         <!-- Profile Form -->

@@ -19,25 +19,22 @@
                     <a href="{% url 'personal_information' %}" class="dropdown-item">Personal Information</a>
                     <a href="{% url 'signout' %}" class="dropdown-item">Logout</a>
                 </div>
+            </div>
+        </div>
     </header>
 
     <div class="container">
         <aside class="sidebar">
             <ul>
-                <ul>
-                    <li><a href="{% url 'inventory' %}">Inventory</a></li>
-                    <li><a href="{% url 'create_sale' %}" class="active">Add Sales</a></li>
-                    <li><a href="{% url 'sales_report' %}">Sales Report</a></li>
-                    
-                </ul>
-                
+                <li><a href="{% url 'inventory' %}">Inventory</a></li>
+                <li><a href="{% url 'create_sale' %}" class="active">Add Sales</a></li>
+                <li><a href="{% url 'sales_report' %}">Sales Report</a></li>
             </ul>
-
         </aside>
 
         <main class="main-content">
             <h2>Record Sale</h2>
-            <form method="post">
+            <form method="post" id="saleForm">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="shoe">Select Shoe:</label>
@@ -68,6 +65,34 @@
             {% endif %}
         </main>
     </div>
+
+    {% if messages %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Create an array to hold the messages for JavaScript use
+                const messages = [
+                    {% for message in messages %}
+                        { 
+                            "message": "{{ message }}", 
+                            "tags": "{{ message.tags }}"
+                        },
+                    {% endfor %}
+                ];
+
+                // Check if there is a success message
+                messages.forEach(function(msg) {
+                    if (msg.tags.includes('success')) {
+                        // Trigger the confirmation dialog box
+                        const userResponse = confirm(msg.message + " Press OK to continue.");
+                        if (userResponse) {
+                            window.location.href = "{% url 'sales_report' %}";  // Redirect to Sales Report
+                        }
+                    }
+                });
+            });
+        </script>
+    {% endif %}
+
     <script src="{% static 'js/inventory.js' %}"></script>
 </body>
 </html>

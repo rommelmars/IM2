@@ -23,6 +23,7 @@ import json
 from django.http import JsonResponse
 from django.db import transaction
 from django.db.models import F
+from django.contrib.messages import get_messages
 
 
 
@@ -165,18 +166,21 @@ def signin(request):
         username = request.POST.get('username')
         password = request.POST.get('pass1')
 
-        # autentication sa user
+        # Authenticate the user
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            # login sa user
+            # Log the user in
             login(request, user)
-            return redirect('inventory')  
+            return redirect('inventory')  # Redirect to the inventory page
         else:
-            messages.error(request, "Invalid username or password. Please try again.") 
+            # Show an error message for invalid credentials
+            messages.error(request, "Invalid username or password. Please try again.", extra_tags='signin') 
             return redirect('signin')
-        
-    messages.get_messages(request).used = True
+    
+    # Clear all messages to avoid unrelated ones appearing
+    storage = messages.get_messages(request)
+    storage.used = True  # Mark all messages as used
 
     return render(request, "authentication/signin.html")
 
@@ -308,10 +312,11 @@ def create_sale(request):
 
                         # Redirect or notify user of successful sale
                         messages.success(request, "Sale recorded successfully!")
-                        return redirect('sales_report')  # Redirect to the sales report page
+                        return redirect('create_sale')  # Redirect to the same page
+
             except Exception as e:
                 form.add_error(None, f"An error occurred: {str(e)}")
-    
+
     return render(request, 'authentication/create_sale.html', {
         'form': form,
         'categories': categories,
@@ -392,21 +397,21 @@ def personal_information(request):
     if request.method == "POST":
         user = request.user
 
-        # Update username, first name, last name, and email
+        # Update user fields
         user.username = request.POST.get("username", user.username)
         user.first_name = request.POST.get("fname", user.first_name)
         user.last_name = request.POST.get("lname", user.last_name)
         user.email = request.POST.get("email", user.email)
 
-        # Handle password change
+        # Handle password update
         password1 = request.POST.get("pass1", "")
         password2 = request.POST.get("pass2", "")
 
-        if password1 or password2:  # If either password field is filled
+        if password1 or password2:
             if password1 == password2:
-                if len(password1) >= 8:  # Optional: Enforce a minimum password length
+                if len(password1) >= 8:
                     user.set_password(password1)
-                    update_session_auth_hash(request, user)  # Keeps the user logged in
+                    update_session_auth_hash(request, user)
                     messages.success(request, "Your password has been updated.")
                 else:
                     messages.error(request, "Password must be at least 8 characters long.")
@@ -415,10 +420,15 @@ def personal_information(request):
                 messages.error(request, "Passwords do not match.")
                 return redirect("personal_information")
 
-        # Save the updated user object
+        # Save updated user data
         user.save()
         messages.success(request, "Your information has been updated successfully.")
-        return redirect("personal_information")
+        return redirect("inventory")
+
+    # Consume all messages (mark them as read)
+    storage = get_messages(request)
+    for _ in storage:
+        pass
 
     return render(request, "authentication/personal_information.html", {"user": request.user})
 

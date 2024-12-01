@@ -17,14 +17,16 @@
 
             <!-- Display success or error messages -->
             {% if messages %}
-                <div class="message-box show" id="message-box">
-                    {% for message in messages %}
-                        <div class="message {{ message.tags }}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
+    <div class="message-box" id="message-box">
+        {% for message in messages %}
+            {% if 'signin' in message.tags %} <!-- Show only messages tagged for signin -->
+                <div class="message {{ message.tags }}">
+                    {{ message }}
                 </div>
             {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}
 
             <form method="POST">
                 {% csrf_token %}
