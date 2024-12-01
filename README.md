@@ -1,56 +1,51 @@
+![Logo](shoeinventory/static/images/logo.png)
+
+
 # Shoe Inventory Management System
 
-The Shoe Inventory Management System is a web-based program that enables shoe shops to manage their inventory more efficiently. The system tracks stock levels, monitors sales, updates inventory in real time, and generates reports on sales patterns and inventory status. Its goal is to streamline inventory procedures, decrease errors, and improve decision-making about stock replenishment and product availability.
+Shoe Inventory Management System is a web-based program designed to help shoe shops manage their inventory more efficiently. The system tracks stock levels, monitors sales, updates inventory in real-time, and generates insightful reports on sales patterns and inventory status. The goal is to streamline inventory procedures, reduce errors, and improve decision-making about stock replenishment and product availability.
 
-## How to Install or Use the Project
+---
 
-### Prerequisites
-Before starting, ensure you have the following installed on your machine:
-- Python 3.8 or later
-- Pip (Python package manager)
-- Git (to clone the repository)
-- Virtualenv
+## Features
 
-### Installation Steps
+### 1. **User Management**
+   - Role-based access control.
+   - Separate logins for administrators and regular users.
 
-1. **Clone the Repository**  
-   Run the following commands to clone the repository and navigate to its folder:
-   ```bash
-   git clone <repository-url>
-   cd <repository-url>
+### 2. **Inventory Management**
+   - **Administrators:** Full control to create, update, and delete shoe records, ensuring effective inventory management.
+   - **Regular Users:** Read-only access to view available shoes.
 
-2. Setup a Virtual Environment
-   ```bash
-   python -m venv venv
-3. Install Dependencies
-   ```bash
-   pip install -r requirements.txt
+### 3. **Sales Management**
+   - **Administrators:** View all sales records, manage them, and access details of all users' sales.
+   - **Regular Users:** Limited to viewing their own sales data.
 
-4. Configure Database
-   settings.py
-   
-   DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+### 4. **Shoe Categorization**
+   - Filter shoes based on predefined categories such as:
+     - Running
+     - Basketball
+     - Casual
+   - Enhances navigation and browsing for all users.
 
+### 5. **Product Search**
+   - Search shoes using criteria like:
+     - Name
+     - Category
+     - Stock availability
+     - Price
 
-5. Apply Migrations
-   ```bash
-   python manage.py makemigrations
-   python manage.py migrate
+### 6. **Admin Dashboard**
+   - Interactive visual overview with:
+     - **Top User Sellers:** Highlights users with the highest sales performance.
+     - **Top-Selling Shoes:** Displays the most popular items.
+     - **Lowest Stock Levels:** Identifies products with the lowest inventory for proactive restocking.
 
-6. Create a Superuser
-   ```bash
-   python manage.py createsuperuser
+---
 
-7. Start the Development Server
-   ```bash
-   python manage.py runserver
+## Technologies Used
 
-### Features
+- **Backend:** Django
+- **Frontend:** HTML, CSS, JavaScript
 
-
-   
+---
