@@ -72,7 +72,7 @@ Follow these steps to clone and run the project locally.
 4.After cloning, navigate into the project directory:
     
     
-    cd IM2
+    cd shoeinventory
 ### Step 2: Set Up Virtual Environment
 It's recommended to set up a virtual environment to isolate the project's dependencies. Run the following command to create the virtual environment:
 
@@ -106,6 +106,8 @@ If you want to access the Django admin panel, create a superuser by running:
 To access the Django login admin panel, go to:
 
       http://127.0.0.1:8000/admin_login/
+
+
 
 
 
