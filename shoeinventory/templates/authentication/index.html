@@ -6,31 +6,45 @@
   <title>Shoe Inventory Management</title>
   <link rel="stylesheet" href="static/css/homepage.css"> <!-- Link to CSS file -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Add styling for clickable logo */
+    .clickable-logo {
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
   <!-- Header Section -->
   <header class="header">
-    <img src="static/images/logo.png" alt="Sapatosan Logo" class="logo"> <!-- Update path to logo -->
+    <img 
+      src="static/images/logo.png" 
+      alt="Sapatosan Logo" 
+      class="logo clickable-logo" 
+      onclick="refreshPage()" 
+      title="Refresh Page"
+    > <!-- Clickable logo that refreshes the page -->
+
     <nav class="nav-links">
-        <a href="{% url 'inventory' %}">Inventory</a>
-        <a href="{% url 'create_sale' %}">Sales</a>
-        <a href="{% url 'categories' %}">Categories</a>
+      <a href="{% url 'inventory' %}">Inventory</a>
+      <a href="{% url 'create_sale' %}">Sales</a>
+      <a href="{% url 'categories' %}">Categories</a>
     </nav>
+
     <div class="account-links">
-        {% if user.is_authenticated %}
-            <span class="username">{{ user.username }}</span> <!-- Display username -->
-            <a href="{% url 'signout' %}">Logout</a> <!-- Logout link -->
-        {% else %}
-            <a href="{% url 'signup' %}" class="join-us-link">Join Us</a>
-            <a href="{% url 'signin' %}">Sign In</a>
-        {% endif %}
+      {% if user.is_authenticated %}
+        <span class="username">{{ user.username }}</span> <!-- Display username -->
+        <a href="{% url 'signout' %}">Logout</a> <!-- Logout link -->
+      {% else %}
+        <a href="{% url 'signup' %}" class="join-us-link">Join Us</a>
+        <a href="{% url 'signin' %}">Sign In</a>
+      {% endif %}
     </div>
   </header>
 
   <!-- Teaser Video Section -->
   <div class="video-container fade-in">
-    <video class="video-teaser" autoPlay loop muted>
+    <video class="video-teaser" autoplay loop muted>
       <source src="static/images/teaser12.mp4" type="video/mp4"> <!-- Update the path to your video -->
       Your browser does not support the video tag.
     </video>
@@ -46,33 +60,38 @@
 
   <div class="spacer"></div> <!-- Spacer between poster and Poster 2 -->
 
-  
-
   <!-- About Us Section -->
   <div class="about-us fade-in">
     <h2>About Us</h2>
     <p>
-        The Shoe Inventory Management System is designed to give shoe shops a dependable solution for efficiently managing their inventory. 
-        The system seeks to improve operational efficiency, lower inventory-related costs, and boost overall business performance by automating 
-        inventory tracking and offering actionable insights via reporting and analytics. This solution will help shops maintain ideal stock levels, 
-        reduce errors, and make more educated inventory management decisions.
+      The Shoe Inventory Management System is designed to give shoe shops a dependable solution for efficiently managing their inventory. 
+      The system seeks to improve operational efficiency, lower inventory-related costs, and boost overall business performance by automating 
+      inventory tracking and offering actionable insights via reporting and analytics. This solution will help shops maintain ideal stock levels, 
+      reduce errors, and make more educated inventory management decisions.
     </p>
   </div>
 
   <!-- Footer Section -->
   <footer class="footer">
     <div class="social-media">
-        <a href="#"><i class="fab fa-facebook-f social-icon"></i></a>
-        <a href="#"><i class="fab fa-instagram social-icon"></i></a>
-        <a href="#"><i class="fab fa-x social-icon"></i></a>
-        <a href="#"><i class="fab fa-tiktok social-icon"></i></a>
+      <a href="#"><i class="fab fa-facebook-f social-icon"></i></a>
+      <a href="#"><i class="fab fa-instagram social-icon"></i></a>
+      <a href="#"><i class="fab fa-x social-icon"></i></a>
+      <a href="#"><i class="fab fa-tiktok social-icon"></i></a>
     </div>
     <p>© 2024 Shoe Inventory Management. All rights reserved.</p>
   </footer>
 
   <!-- JavaScript for animations -->
-  <script src="homepage.js"></script>
   <script>
+    // Function to refresh the page
+    function refreshPage() {
+      window.scrollTo({ top: 0, behavior: 'smooth' }); // Smooth scroll to top
+      setTimeout(() => {
+        window.location.reload(); // Reload the page after a short delay
+      }, 300); // 300ms delay
+    }
+
     // Wait until the DOM is fully loaded before triggering animations
     window.addEventListener('DOMContentLoaded', () => {
       const elements = document.querySelectorAll('.fade-in');
@@ -91,6 +110,5 @@
       });
     });
   </script>
-
 </body>
 </html>
