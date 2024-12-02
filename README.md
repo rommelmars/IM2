@@ -108,7 +108,7 @@ To access the Django login admin panel, go to:
       http://127.0.0.1:8000/admin_login/
 
 
-
+![ERD](shoeinventory/static/images/erd.png)
 
 
 
