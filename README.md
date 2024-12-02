@@ -110,5 +110,9 @@ To access the Django login admin panel, go to:
 
 ![ERD](shoeinventory/static/images/erd.png)
 
+![CHART](shoeinventory/static/images/chart.png)
+
+![FIGMA](shoeinventory/static/images/figma.png)
+
 
 
